@@ -7,4 +7,8 @@
         <RootNamespace>Trab1_PS</RootNamespace>
     </PropertyGroup>
 
+    <ItemGroup>
+      <Compile Remove="Models\filme.cs" />
+    </ItemGroup>
+
 </Project>
