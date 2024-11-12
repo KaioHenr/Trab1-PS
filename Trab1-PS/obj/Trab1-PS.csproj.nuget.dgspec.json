@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\thiag\\Documents\\GitHub\\Trab1-PS\\Trab1-PS\\Trab1-PS.csproj": {}
+    "C:\\Users\\laris\\OneDrive\\Documentos\\GitHub\\Trab1-PS\\Trab1-PS\\Trab1-PS.csproj": {}
   },
   "projects": {
-    "C:\\Users\\thiag\\Documents\\GitHub\\Trab1-PS\\Trab1-PS\\Trab1-PS.csproj": {
+    "C:\\Users\\laris\\OneDrive\\Documentos\\GitHub\\Trab1-PS\\Trab1-PS\\Trab1-PS.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\thiag\\Documents\\GitHub\\Trab1-PS\\Trab1-PS\\Trab1-PS.csproj",
+        "projectUniqueName": "C:\\Users\\laris\\OneDrive\\Documentos\\GitHub\\Trab1-PS\\Trab1-PS\\Trab1-PS.csproj",
         "projectName": "Trab1-PS",
-        "projectPath": "C:\\Users\\thiag\\Documents\\GitHub\\Trab1-PS\\Trab1-PS\\Trab1-PS.csproj",
-        "packagesPath": "C:\\Users\\thiag\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\thiag\\Documents\\GitHub\\Trab1-PS\\Trab1-PS\\obj\\",
+        "projectPath": "C:\\Users\\laris\\OneDrive\\Documentos\\GitHub\\Trab1-PS\\Trab1-PS\\Trab1-PS.csproj",
+        "packagesPath": "C:\\Users\\laris\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\laris\\OneDrive\\Documentos\\GitHub\\Trab1-PS\\Trab1-PS\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\thiag\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\laris\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
