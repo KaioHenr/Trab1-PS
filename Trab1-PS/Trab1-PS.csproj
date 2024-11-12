@@ -9,6 +9,7 @@
 
     <ItemGroup>
       <Compile Remove="Models\filme.cs" />
+      <Compile Include="Models\Filme.cs" />
     </ItemGroup>
 
 </Project>
