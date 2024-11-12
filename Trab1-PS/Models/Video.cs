@@ -1,22 +1,17 @@
 ﻿namespace Trab1_PS.Models;
 
-public class Video
+public abstract class Video
 {
-    private string nome { set; get; }
-    private List<string> genero { set; get; }
-    private int duracao { set; get; }
-    private string sinopse { set; get; }
-    private Data lancamento { set; get; }
-    private List<string> elenco { set; get; }
+    private int id { get; set; }
+    private string Titulo { get; set; }
+    private string Descricao { get; set; }
+    private string Genero { get; set; }
+    private DateTime DataLancamento { get; set; }
+    private ICollection<Avaliacao> Avaliacoes { get; set; }
 
-    public Video()
+    protected Video(string titulo, string descricao,string genero,DateTime dataLancamento, ICollection<Avaliacao> avaliacoes)
     {
-        //consulta no banco ou busca na api
+        
     }
 
-    public void avaliacao(int test)
-    {
-        Console.WriteLine(test);
-    }
-    
 }
