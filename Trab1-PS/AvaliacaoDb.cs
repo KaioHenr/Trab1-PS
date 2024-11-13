@@ -1,6 +1,6 @@
-﻿namespace Trab1_PS;
+﻿using Microsoft.EntityFrameworkCore;
 
-public class AppDb : 
+public class AvaliacaoDb : DbContext //Classe avaliacaoDb herda de DbContext para comunicação com o banco de dados
 {
     
 }
