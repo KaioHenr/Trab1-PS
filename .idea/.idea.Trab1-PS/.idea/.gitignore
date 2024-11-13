@@ -11,4 +11,4 @@
 # Datasource local storage ignored files
 /dataSources/
 /dataSources.local.xml
-Trab1-PS/obj/Trab1-PS.csproj.nuget.g.props
+/Trab1-PS/obj/Trab1-PS.csproj.nuget.g.props
