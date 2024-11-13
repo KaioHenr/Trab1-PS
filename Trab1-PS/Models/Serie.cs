@@ -1,12 +1,11 @@
 ﻿namespace Trab1_PS.Models;
 
 
-public class Serie : Video
+public class Serie : Categoria
 {
-    private List<int> Episodios { get; set; }
-
-    public Serie(string titulo, string descricao,string genero,DateTime dataLancamento, ICollection<Avaliacao> avaliacoes, List<int> episodios):base(titulo,descricao,genero,dataLancamento,avaliacoes)
+    private ICollection<int> Episodios { get; set; }
+    public Serie(int id,string titulo, string descricao,int ano, int mes, int dia, ICollection<Avaliacao> avaliacoes, List<int> episodios):base(id,titulo,descricao,ano,mes,dia,avaliacoes)
     {
-        Episodios=episodios;
+        Episodios = episodios;
     }
 }

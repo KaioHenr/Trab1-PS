@@ -4,8 +4,17 @@ public class Avaliacao
 {
     public int Id { get; set; }
     public Usuario Usuario { get; set; }
-    public Video Video { get; set; }  // Agora Video é genérico para Filme ou Serie
-    public int Nota { get; set; }  // Ex: 1 a 5 estrelas
+    public Categoria Categoria { get; set; } 
+    public int Nota { get; set; } 
     public string Comentario { get; set; }
     public DateTime DataAvaliacao { get; set; }
+    public Avaliacao(int id, Usuario usuario, Categoria categoria, int nota, string comentario, DateTime dataAvaliacao)
+    {
+        Id = id;
+        Usuario = usuario;
+        Categoria = categoria;
+        Nota = nota;
+        Comentario = comentario;
+        DataAvaliacao = dataAvaliacao;
+    }
 }
