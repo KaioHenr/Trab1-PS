@@ -2,7 +2,7 @@
 namespace Trab1_PS.Models;
 public abstract class Categoria
 {
-    private int id { get; set; }
+    private int Id { get; set; }
     private string Titulo { get; set; }
     private string Descricao { get; set; }
     private List<string>  Genero { get; set; }
@@ -10,6 +10,7 @@ public abstract class Categoria
     private ICollection<Avaliacao> Avaliacoes { get; set; }
     protected Categoria(int id,string titulo, string descricao,int ano, int mes, int dia, ICollection<Avaliacao> avaliacoes)
     {
+        Id = id;
         Titulo = titulo;
         Descricao = descricao;
         Avaliacoes = new List<Avaliacao>();
