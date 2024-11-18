@@ -1,6 +1,8 @@
-﻿namespace Trab1_PS.Controllers;
+﻿using Microsoft.AspNetCore.Mvc;
 
-public class UsuarioController
+namespace Trab1_PS.Controllers;
+
+public class UsuarioController : ControllerBase
 {
     
 }

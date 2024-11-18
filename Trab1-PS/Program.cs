@@ -4,9 +4,10 @@ using Trab1_PS.Models;
 var builder = WebApplication.CreateBuilder(args);
 
 // Adiciona o DbContext e configura o banco de dados (SQLite no exemplo)
-builder.Services.AddDbContext<AvaliacaoDb>(options =>
-    options.UseSqlite("Data Source=avaliacao.db"));
-
+// builder.Services.AddDbContext<AvaliacaoDb>(options =>
+//     options.UseSqlite("Data Source=avaliacao.db"));
+Usuario test = new Usuario(1,"kaio","test@","123",new List<Avaliacao>());
+Console.WriteLine(test);
 // Adiciona serviços para controllers (somente para API)
 builder.Services.AddControllers();
 
