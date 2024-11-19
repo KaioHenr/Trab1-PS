@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using RestSharp;
 using Trab1_PS.Models;
 
 namespace Trab1_PS.Controllers;
@@ -26,30 +27,31 @@ public class CategoriaController : ControllerBase
             return BadRequest(new { mensagem = "Por favor, forneça pelo menos um filtro de busca {Filme ou série}" });
         }
 
-        var query = await _context.Categorias.AsQueryable().Where(tipoMidia =>
-                tipoMidia.Titulo.Contains(nomeMidia) && tipoMidia.DataLancamento.Year.Equals(anoLancamento))
-            .ToListAsync();
-
+        var query = await _context.Categorias
+                                        .AsQueryable()
+                                        .Where(tipoMidia => tipoMidia.Titulo.Contains(nomeMidia) && tipoMidia.DataLancamento.Year.Equals(anoLancamento))
+                                        .ToListAsync();
         if (!query.Any())
         {
-            var response = await _httpClient.GetAsync("");
 
-            // Verifica se a resposta foi bem-sucedida
+
+            var options = new RestClientOptions("https://api.themoviedb.org/3/search/movie?key=53ff025f998be338910dbff474bd51df&include_adult=false&language=en-US&page=1");
+            var client = new RestClient(options);
+            var request = new RestRequest("");
+            request.AddHeader("accept", "application/json");
+            request.AddHeader("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1M2ZmMDI1Zjk5OGJlMzM4OTEwZGJmZjQ3NGJkNTFkZiIsIm5iZiI6MTczMTk4MjU2OS4zNTgyMDc3LCJzdWIiOiI2NzM4ZDZhMjExOTkxN2JjMWY1ZTc3YzYiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.Vae5cpQDnyO4gQIRxmwtAH3Dt6xOqifnaOrUMEuU6Mo");
+            var test = await client.GetAsync(request);
+
+            Console.WriteLine("{0}", test.Content);
+
+            var response = await _httpClient.GetAsync("https://api.themoviedb.org/3/search/movie");
             if (!response.IsSuccessStatusCode)
             {
                 return StatusCode((int)response.StatusCode, "Erro ao acessar a API externa.");
             }
-
-            // Lê a resposta como string
             var responseData = await response.Content.ReadAsStringAsync();
-
-            // Deserializa a resposta (supondo que seja um JSON)
-            var midiasExternas = JsonConvert.DeserializeObject<List<Categoria>>(responseData);
-
-            // Retorna os resultados encontrados na API externa
-            return Ok(midiasExternas);
+            
         }
-        
         return Ok(query);
     }
 }
