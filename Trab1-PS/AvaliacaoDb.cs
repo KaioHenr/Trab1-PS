@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Trab1_PS.Models;
 
-public class AvaliacaoDb : DbContext //Classe avaliacaoDb herda de DbContext para comunicação com o banco de dados
+public class AvaliacaoDb : DbContext //Classe AvaliacaoDb herda de DbContext para comunicação com o banco de dados
 {
     public AvaliacaoDb(DbContextOptions<AvaliacaoDb> options)
         : base(options) { }
