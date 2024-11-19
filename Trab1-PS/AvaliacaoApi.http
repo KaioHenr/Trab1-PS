@@ -1,7 +1,7 @@
 ﻿@AvaliacaoApi_HostAddress = https://localhost:7004
 
-
 ###
+
 POST {{AvaliacaoApi_HostAddress}}/usuarios
 Content-Type: application/json
 
@@ -10,8 +10,20 @@ Content-Type: application/json
   "Email": "larissa@gmail.com",
   "Senha": "12345"
 }
+
 ###
 
-GET https://localhost:7004/usuarios
+GET {{AvaliacaoApi_HostAddress}}/usuarios
+Content-Type: application/json
 ###
 
+POST {{AvaliacaoApi_HostAddress}}/usuarios
+Content-Type: application/json
+
+{
+  "Nome": "irene",
+  "Email": "irene@gmail.com",
+  "Senha": "45677"
+}
+
+###

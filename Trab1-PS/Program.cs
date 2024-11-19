@@ -28,14 +28,21 @@
 // app.MapControllers();
 //
 // app.Run();
+using Microsoft.EntityFrameworkCore;
+using Trab1_PS.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Adicionando os serviços necessários para controllers
+// Configurando o Entity Framework Core com InMemory
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseInMemoryDatabase("AvaliacaoDb"));
+
+// Adicionando os controladores
 builder.Services.AddControllers();
 
 var app = builder.Build();
 
-// Configurando a rota para os controladores
+// Configurando as rotas para controladores
 app.MapControllers();
 
 app.Run();
