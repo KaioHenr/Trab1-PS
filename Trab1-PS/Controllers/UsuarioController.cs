@@ -25,14 +25,13 @@ namespace Trab1_PS.Controllers
             if (await _dbContext.Usuarios.AnyAsync(u => u.Email == usuarioDto.Email))
                 return BadRequest("E-mail já cadastrado."); 
             
-            var usuario = new Usuario
-            {
-                Id = usuarioDto,
-                Nome = usuarioDto.Nome,
-                Email = usuarioDto.Email,
-                Senha = usuarioDto.Senha
-            };              
+            var usuario = new Usuario (usuarioDto.Id,
+                usuarioDto.Nome,
+                usuarioDto.Email,
+                usuarioDto.Senha
+            );              
             _dbContext.Usuarios.Add(usuario);
+            Console.WriteLine("teste");
             await _dbContext.SaveChangesAsync();
 
             return Ok("Usuário cadastrado com sucesso!");
@@ -41,7 +40,7 @@ namespace Trab1_PS.Controllers
 
         // Autenticar Usuário
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromQuery] LoginDto loginDto)
+        public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
         {
             var usuario = await _dbContext.Usuarios
                 .FirstOrDefaultAsync(u => u.Email == loginDto.Email && u.Senha == loginDto.Senha);
@@ -54,15 +53,15 @@ namespace Trab1_PS.Controllers
 
         // Criar Avaliação
         [HttpPost("review")]
-        public async Task<IActionResult> CreateReview([FromQuery] AvaliacaoDto avaliacaoDto)
+        public async Task<IActionResult> CreateReview([FromBody]AvaliacaoDto avaliacaoDto)
         {
-            var usuario = await _dbContext.Usuarios.FindAsync(avaliacaoDto.Usuario);
+            var usuario = await _dbContext.Usuarios.FindAsync(avaliacaoDto.IdUsuario);
             if (usuario == null) return NotFound("Usuário não encontrado.");
 
-            var categoria = await _dbContext.Categorias.FindAsync(avaliacaoDto.Categoria);
+            var categoria = await _dbContext.Categorias.FindAsync(avaliacaoDto.IdCategoria);
             if (categoria == null) return NotFound("Categoria não encontrada.");
 
-            var avaliacao = new Avaliacao (Nota = avaliacaoDto.Nota, Comentario = avaliacaoDto.Comentario);
+            var avaliacao = new Avaliacao (avaliacaoDto.Id,avaliacaoDto.IdUsuario, avaliacaoDto.IdCategoria,avaliacaoDto.Nota, avaliacaoDto.Comentario, avaliacaoDto.DataAvaliacao.Year,avaliacaoDto.DataAvaliacao.Month,avaliacaoDto.DataAvaliacao.Day);
 
             _dbContext.Avaliacoes.Add(avaliacao);
             await _dbContext.SaveChangesAsync();
@@ -72,9 +71,9 @@ namespace Trab1_PS.Controllers
 
         // Editar Avaliação
         [HttpPut("review/{id}")]
-        public async Task<IActionResult> EditReview(int id, [FromQuery] EditAvaliacaoDto editDto)
+        public async Task<IActionResult> EditReview(int id, [FromBody] EditAvaliacaoDto editDto)
         {
-            var avaliacao = await _dbContext.Avaliacoes.Include(a => a.Usuario).FirstOrDefaultAsync(a => a.Id == id);
+            var avaliacao = await _dbContext.Avaliacoes.Include(a => a.IdUsuario).FirstOrDefaultAsync(a => a.Id == id);
             if (avaliacao == null) return NotFound("Avaliação não encontrada.");
 
             avaliacao.Nota = editDto.Nota;
@@ -98,6 +97,41 @@ namespace Trab1_PS.Controllers
 
             return Ok("Avaliação excluída com sucesso!");
         }
-        
+        // Obter todos os usuários
+        [HttpGet("usuarios")]
+        public async Task<IActionResult> GetUsuarios()
+        {
+            var usuarios = await _dbContext.Usuarios
+                .Select(u => new 
+                {
+                    u.Id,
+                    u.Nome,
+                    u.Email
+                    // Excluímos a senha para não expor dados sensíveis
+                })
+                .ToListAsync();
+            return Ok(usuarios);
+        }
+
+// Obter um único usuário por ID
+        [HttpGet("usuarios/{id}")]
+        public async Task<IActionResult> GetUsuarioById(int id)
+        {
+            var usuario = await _dbContext.Usuarios
+                .Where(u => u.Id == id)
+                .Select(u => new 
+                {
+                    u.Id,
+                    u.Nome,
+                    u.Email
+                })
+                .FirstOrDefaultAsync();
+
+            if (usuario == null)
+                return NotFound($"Usuário com ID {id} não encontrado.");
+
+            return Ok(usuario);
+        }
+
     }
 }

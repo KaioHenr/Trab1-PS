@@ -6,6 +6,8 @@ public class Usuario
     public string Email { get; set; }
     public string Senha { get; set; }
     public ICollection<Avaliacao> Avaliacoes { get; set; }
+    
+    public Usuario() { }
     public Usuario(int id, string nome, string email, string senha)
     {
         Id = id;

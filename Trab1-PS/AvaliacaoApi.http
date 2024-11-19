@@ -2,15 +2,15 @@
 
 ###
 
-POST {{AvaliacaoApi_HostAddress}}/usuarios
+POST http://localhost:7004/api/User/register
 Content-Type: application/json
 
 {
+  "Id": 1,
   "Nome": "larissa rangel",
   "Email": "larissa@gmail.com",
   "Senha": "12345"
 }
-
 ###
 
 GET {{AvaliacaoApi_HostAddress}}/usuarios
