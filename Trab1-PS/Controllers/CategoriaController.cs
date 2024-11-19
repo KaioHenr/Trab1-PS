@@ -32,7 +32,7 @@ public class CategoriaController : ControllerBase
 
         if (!query.Any())
         {
-            var response = await _httpClient.GetAsync(apiUrl);
+            var response = await _httpClient.GetAsync("");
 
             // Verifica se a resposta foi bem-sucedida
             if (!response.IsSuccessStatusCode)

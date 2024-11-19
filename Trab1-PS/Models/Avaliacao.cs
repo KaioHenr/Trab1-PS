@@ -8,13 +8,13 @@ public class Avaliacao
     public int Nota { get; set; } 
     public string Comentario { get; set; }
     public DateTime DataAvaliacao { get; set; }
-    public Avaliacao(int id, Usuario usuario, Categoria categoria, int nota, string comentario, DateTime dataAvaliacao)
+    public Avaliacao(int id, Usuario usuario, Categoria categoria, int nota, string comentario, int ano, int mes, int dia)
     {
         Id = id;
         Usuario = usuario;
         Categoria = categoria;
         Nota = nota;
         Comentario = comentario;
-        DataAvaliacao = dataAvaliacao;
+        DataAvaliacao = new DateTime(ano,mes, dia);
     }
 }
