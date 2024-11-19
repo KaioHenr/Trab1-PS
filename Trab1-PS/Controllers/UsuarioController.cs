@@ -1,51 +1,103 @@
-﻿// using Microsoft.AspNetCore.Mvc;
-// using Trab1_PS.Models;
-//
-// namespace Trab1_PS.Controllers;
-//
-// public class UsuarioController : ControllerBase
-// {
-//     [ApiController]
-//     [Route("usuarios")]
-//     public class UsuariosController : ControllerBase
-//     {
-//         [HttpPost]
-//         public IActionResult CreateUsuario([FromBody] Usuario usuario)
-//         {
-//             // Implementação aqui
-//             return Ok();
-//         }
-//     }
-//
-//     
-// }
 
 using Microsoft.AspNetCore.Mvc;
-using Trab1_PS.Models;  // Certifique-se de usar o namespace correto
+using Microsoft.EntityFrameworkCore;
+using Trab1_PS.dto;
+using Trab1_PS.Models;
 
 namespace Trab1_PS.Controllers
 {
-    [ApiController]
-    [Route("usuarios")]
-    public class UsuarioController : ControllerBase
+
+    
+    [Route("api/[controller]")]
+    public class UserController : ControllerBase
     {
-        // Para armazenar os usuários em memória
-        private static List<Usuario> usuarios = new List<Usuario>();
+        private readonly AvaliacaoDb _dbContext;
 
-        // POST para criar um novo usuário
-        [HttpPost]
-        public IActionResult CreateUsuario([FromBody] Usuario usuario)
+        public UserController(AvaliacaoDb dbContext)
         {
-            usuarios.Add(usuario);  // Adiciona o usuário à lista
-            return Ok(usuario);     // Retorna o usuário que foi adicionado
+            _dbContext = dbContext;
         }
 
-        // GET para listar todos os usuários
-        [HttpGet]
-        public IActionResult GetUsuarios()
+        // Cadastrar Usuário
+        [HttpPost("register")]
+        public async Task<IActionResult> Register([FromQuery] Usuario usuarioDto)
         {
-            // Retorna a lista de usuários
-            return Ok(usuarios);  // Aqui você retorna a lista que está armazenada na variável 'usuarios'
+            if (await _dbContext.Usuarios.AnyAsync(u => u.Email == usuarioDto.Email))
+                return BadRequest("E-mail já cadastrado."); 
+            
+            var usuario = new Usuario
+            {
+                Id = usuarioDto,
+                Nome = usuarioDto.Nome,
+                Email = usuarioDto.Email,
+                Senha = usuarioDto.Senha
+            };              
+            _dbContext.Usuarios.Add(usuario);
+            await _dbContext.SaveChangesAsync();
+
+            return Ok("Usuário cadastrado com sucesso!");
         }
+
+
+        // Autenticar Usuário
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromQuery] LoginDto loginDto)
+        {
+            var usuario = await _dbContext.Usuarios
+                .FirstOrDefaultAsync(u => u.Email == loginDto.Email && u.Senha == loginDto.Senha);
+
+            if (usuario == null)
+                return Unauthorized("Usuário ou senha inválidos.");
+
+            return Ok("Login realizado com sucesso!");
+        }
+
+        // Criar Avaliação
+        [HttpPost("review")]
+        public async Task<IActionResult> CreateReview([FromQuery] AvaliacaoDto avaliacaoDto)
+        {
+            var usuario = await _dbContext.Usuarios.FindAsync(avaliacaoDto.Usuario);
+            if (usuario == null) return NotFound("Usuário não encontrado.");
+
+            var categoria = await _dbContext.Categorias.FindAsync(avaliacaoDto.Categoria);
+            if (categoria == null) return NotFound("Categoria não encontrada.");
+
+            var avaliacao = new Avaliacao (Nota = avaliacaoDto.Nota, Comentario = avaliacaoDto.Comentario);
+
+            _dbContext.Avaliacoes.Add(avaliacao);
+            await _dbContext.SaveChangesAsync();
+
+            return Ok("Avaliação criada com sucesso!");
+        }
+
+        // Editar Avaliação
+        [HttpPut("review/{id}")]
+        public async Task<IActionResult> EditReview(int id, [FromQuery] EditAvaliacaoDto editDto)
+        {
+            var avaliacao = await _dbContext.Avaliacoes.Include(a => a.Usuario).FirstOrDefaultAsync(a => a.Id == id);
+            if (avaliacao == null) return NotFound("Avaliação não encontrada.");
+
+            avaliacao.Nota = editDto.Nota;
+            avaliacao.Comentario = editDto.Comentario;
+
+            _dbContext.Avaliacoes.Update(avaliacao);
+            await _dbContext.SaveChangesAsync();
+
+            return Ok("Avaliação editada com sucesso!");
+        }
+
+        // Excluir Avaliação
+        [HttpDelete("review/{id}")]
+        public async Task<IActionResult> DeleteReview(int id)
+        {
+            var avaliacao = await _dbContext.Avaliacoes.FindAsync(id);
+            if (avaliacao == null) return NotFound("Avaliação não encontrada.");
+
+            _dbContext.Avaliacoes.Remove(avaliacao);
+            await _dbContext.SaveChangesAsync();
+
+            return Ok("Avaliação excluída com sucesso!");
+        }
+        
     }
 }

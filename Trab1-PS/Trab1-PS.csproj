@@ -10,6 +10,7 @@
     <ItemGroup>
       <Compile Remove="Models\filme.cs" />
       <Compile Include="Models\Filme.cs" />
+      <Compile Remove="Models\IUsuarioRepository.cs" />
     </ItemGroup>
 
     <ItemGroup>
