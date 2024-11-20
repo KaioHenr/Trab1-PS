@@ -19,12 +19,15 @@ namespace Trab1_PS.Controllers
         }
 
         // Cadastrar Usuário
-        [HttpPost("register")]
+        [HttpPost]
+        [Route("register")]
         public async Task<IActionResult> Register([FromBody] Usuario usuarioDto)
         {
-            if (await _dbContext.Usuarios.AnyAsync(u => u.Email == usuarioDto.Email))
-                return BadRequest("E-mail já cadastrado."); 
-    
+            // Verificar se o e-mail já está cadastrado
+            if (await _dbContext.Usuarios.AnyAsync(u => u.Email == usuarioDto.Email)) 
+                return BadRequest(new { Message = "E-mail já cadastrado." });
+
+            // Cria novo objeto com dados da requisição
             var usuario = new Usuario(
                 usuarioDto.Id,
                 usuarioDto.Nome,
@@ -32,11 +35,15 @@ namespace Trab1_PS.Controllers
                 usuarioDto.Senha
             );
 
+            // Adicionar o novo usuário criado ao banco
             _dbContext.Usuarios.Add(usuario);
+            //_dbContext.Usuarios acessa a tabela de usuarios do banco e Add new usuario 
             await _dbContext.SaveChangesAsync();
-
-            return Ok("Usuário cadastrado com sucesso!");
+            // Salva tudo no banco
+            
+            return Ok(new { Message = "Usuário registrado com sucesso!" });
         }
+
 
 
         // Autenticar Usuário
@@ -103,7 +110,11 @@ namespace Trab1_PS.Controllers
         public async Task<IActionResult> GetAllUsuarios()
         {
             var usuarios = await _dbContext.Usuarios.ToListAsync();
+            //_dbContext.Usuarios acessa a tabela usuarios no banco
+            //ToList consulta pra buscar todos registros
+            //await espera a resposta sem parar execução
             return Ok(usuarios);
+            //volta a lista de objetos Usuario em json
         }
 
 

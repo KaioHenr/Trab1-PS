@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Trab1-PS")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b731ba9be4a5e1fafc4be817fdfb4705c30ebc30")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ac67ed888782ea899f86aba12838a96d8f35e512")]
 [assembly: System.Reflection.AssemblyProductAttribute("Trab1-PS")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Trab1-PS")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
