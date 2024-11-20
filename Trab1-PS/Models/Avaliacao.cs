@@ -8,6 +8,8 @@ public class Avaliacao
     public int Nota { get; set; } 
     public string Comentario { get; set; }
     public DateTime DataAvaliacao { get; set; }
+    
+    public Avaliacao() { }
     public Avaliacao(int id, int usuario, int categoria, int nota, string comentario, int ano, int mes, int dia)
     {
         Id = id;

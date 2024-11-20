@@ -2,7 +2,7 @@
 
 ###
 
-POST http://localhost:7004/api/User/register
+POST {{AvaliacaoApi_HostAddress}}/api/User/register
 Content-Type: application/json
 
 {
@@ -11,9 +11,10 @@ Content-Type: application/json
   "Email": "larissa@gmail.com",
   "Senha": "12345"
 }
+
 ###
 
-GET {{AvaliacaoApi_HostAddress}}/usuarios
+GET {{AvaliacaoApi_HostAddress}}/api/User/usuarios
 Content-Type: application/json
 ###
 
@@ -26,4 +27,7 @@ Content-Type: application/json
   "Senha": "45677"
 }
 
+###
+GET https://localhost:7004/api/Filmes
+Accept: application/json
 ###

@@ -20,18 +20,19 @@ namespace Trab1_PS.Controllers
 
         // Cadastrar Usuário
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromQuery] Usuario usuarioDto)
+        public async Task<IActionResult> Register([FromBody] Usuario usuarioDto)
         {
             if (await _dbContext.Usuarios.AnyAsync(u => u.Email == usuarioDto.Email))
                 return BadRequest("E-mail já cadastrado."); 
-            
-            var usuario = new Usuario (usuarioDto.Id,
+    
+            var usuario = new Usuario(
+                usuarioDto.Id,
                 usuarioDto.Nome,
                 usuarioDto.Email,
                 usuarioDto.Senha
-            );              
+            );
+
             _dbContext.Usuarios.Add(usuario);
-            Console.WriteLine("teste");
             await _dbContext.SaveChangesAsync();
 
             return Ok("Usuário cadastrado com sucesso!");
@@ -97,41 +98,14 @@ namespace Trab1_PS.Controllers
 
             return Ok("Avaliação excluída com sucesso!");
         }
-        // Obter todos os usuários
-        [HttpGet("usuarios")]
-        public async Task<IActionResult> GetUsuarios()
+        [HttpGet]
+        [Route("usuarios")]
+        public async Task<IActionResult> GetAllUsuarios()
         {
-            var usuarios = await _dbContext.Usuarios
-                .Select(u => new 
-                {
-                    u.Id,
-                    u.Nome,
-                    u.Email
-                    // Excluímos a senha para não expor dados sensíveis
-                })
-                .ToListAsync();
+            var usuarios = await _dbContext.Usuarios.ToListAsync();
             return Ok(usuarios);
         }
 
-// Obter um único usuário por ID
-        [HttpGet("usuarios/{id}")]
-        public async Task<IActionResult> GetUsuarioById(int id)
-        {
-            var usuario = await _dbContext.Usuarios
-                .Where(u => u.Id == id)
-                .Select(u => new 
-                {
-                    u.Id,
-                    u.Nome,
-                    u.Email
-                })
-                .FirstOrDefaultAsync();
-
-            if (usuario == null)
-                return NotFound($"Usuário com ID {id} não encontrado.");
-
-            return Ok(usuario);
-        }
 
     }
 }

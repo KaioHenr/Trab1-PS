@@ -8,6 +8,12 @@ public abstract class Categoria
     public List<string>  Genero { get; set; }
     public DateTime DataLancamento { get; set; }
     public ICollection<Avaliacao> Avaliacoes { get; set; }
+    
+    protected Categoria() 
+    {
+        Avaliacoes = new List<Avaliacao>();
+        Genero = new List<string>();
+    }
     protected Categoria(int id,string titulo, string descricao,int ano, int mes, int dia, ICollection<Avaliacao> avaliacoes)
     {
         Id = id;
