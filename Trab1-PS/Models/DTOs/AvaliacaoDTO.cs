@@ -2,7 +2,7 @@
 
 namespace Trab1_PS.dto;
 
-public class AvaliacaoDto
+public class AvaliacaoDTO
 {
     public int Id { get; set; }
     public int IdUsuario { get; set; }
@@ -14,7 +14,7 @@ public class AvaliacaoDto
     public DateTime DataAvaliacao { get; set; }
 
 
-    public AvaliacaoDto(int id, int usuario, int categoria, int nota, string comentario, int ano, int mes, int dia)
+    public AvaliacaoDTO(int id, int usuario, int categoria, int nota, string comentario, int ano, int mes, int dia)
     {
         Id = id;
         IdUsuario = usuario;

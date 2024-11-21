@@ -34,7 +34,7 @@ using Trab1_PS.Models;
 var builder = WebApplication.CreateBuilder(args);
 
 // Configurando o Entity Framework Core com InMemory
-builder.Services.AddDbContext<AvaliacaoDb>(options => options.UseInMemoryDatabase("AvaliacaoDb"));
+builder.Services.AddDbContext<AppDbContext>(options => options.UseInMemoryDatabase("AvaliacaoDb"));
 
 // Adicionando os controladores
 builder.Services.AddControllers();

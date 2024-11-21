@@ -11,11 +11,11 @@ namespace Trab1_PS.Controllers
     [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
-        private readonly AvaliacaoDb _dbContext;
+        private readonly AppDbContext _dbContextContext;
 
-        public UserController(AvaliacaoDb dbContext)
+        public UserController(AppDbContext dbContextContext)
         {
-            _dbContext = dbContext;
+            _dbContextContext = dbContextContext;
         }
 
         // Cadastrar Usuário
@@ -24,7 +24,7 @@ namespace Trab1_PS.Controllers
         public async Task<IActionResult> Register([FromBody] Usuario usuarioDto)
         {
             // Verificar se o e-mail já está cadastrado
-            if (await _dbContext.Usuarios.AnyAsync(u => u.Email == usuarioDto.Email)) 
+            if (await _dbContextContext.Usuarios.AnyAsync(u => u.Email == usuarioDto.Email)) 
                 return BadRequest(new { Message = "E-mail já cadastrado." });
 
             // Cria novo objeto com dados da requisição
@@ -36,9 +36,9 @@ namespace Trab1_PS.Controllers
             );
 
             // Adicionar o novo usuário criado ao banco
-            _dbContext.Usuarios.Add(usuario);
+            _dbContextContext.Usuarios.Add(usuario);
             //_dbContext.Usuarios acessa a tabela de usuarios do banco e Add new usuario 
-            await _dbContext.SaveChangesAsync();
+            await _dbContextContext.SaveChangesAsync();
             // Salva tudo no banco
             
             return Ok(new { Message = "Usuário registrado com sucesso!" });
@@ -48,9 +48,9 @@ namespace Trab1_PS.Controllers
 
         // Autenticar Usuário
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
+        public async Task<IActionResult> Login([FromBody] UsuarioDTO loginDto)
         {
-            var usuario = await _dbContext.Usuarios
+            var usuario = await _dbContextContext.Usuarios
                 .FirstOrDefaultAsync(u => u.Email == loginDto.Email && u.Senha == loginDto.Senha);
 
             if (usuario == null)
@@ -61,34 +61,34 @@ namespace Trab1_PS.Controllers
 
         // Criar Avaliação
         [HttpPost("review")]
-        public async Task<IActionResult> CreateReview([FromBody]AvaliacaoDto avaliacaoDto)
+        public async Task<IActionResult> CreateReview([FromBody]AvaliacaoDTO avaliacaoDto)
         {
-            var usuario = await _dbContext.Usuarios.FindAsync(avaliacaoDto.IdUsuario);
+            var usuario = await _dbContextContext.Usuarios.FindAsync(avaliacaoDto.IdUsuario);
             if (usuario == null) return NotFound("Usuário não encontrado.");
 
-            var categoria = await _dbContext.Categorias.FindAsync(avaliacaoDto.IdCategoria);
+            var categoria = await _dbContextContext.Categorias.FindAsync(avaliacaoDto.IdCategoria);
             if (categoria == null) return NotFound("Categoria não encontrada.");
 
             var avaliacao = new Avaliacao (avaliacaoDto.Id,avaliacaoDto.IdUsuario, avaliacaoDto.IdCategoria,avaliacaoDto.Nota, avaliacaoDto.Comentario, avaliacaoDto.DataAvaliacao.Year,avaliacaoDto.DataAvaliacao.Month,avaliacaoDto.DataAvaliacao.Day);
 
-            _dbContext.Avaliacoes.Add(avaliacao);
-            await _dbContext.SaveChangesAsync();
+            _dbContextContext.Avaliacoes.Add(avaliacao);
+            await _dbContextContext.SaveChangesAsync();
 
             return Ok("Avaliação criada com sucesso!");
         }
 
         // Editar Avaliação
         [HttpPut("review/{id}")]
-        public async Task<IActionResult> EditReview(int id, [FromBody] EditAvaliacaoDto editDto)
+        public async Task<IActionResult> EditReview(int id, [FromBody] AvaliacaoDTO editDto)
         {
-            var avaliacao = await _dbContext.Avaliacoes.Include(a => a.IdUsuario).FirstOrDefaultAsync(a => a.Id == id);
+            var avaliacao = await _dbContextContext.Avaliacoes.Include(a => a.IdUsuario).FirstOrDefaultAsync(a => a.Id == id);
             if (avaliacao == null) return NotFound("Avaliação não encontrada.");
 
             avaliacao.Nota = editDto.Nota;
             avaliacao.Comentario = editDto.Comentario;
 
-            _dbContext.Avaliacoes.Update(avaliacao);
-            await _dbContext.SaveChangesAsync();
+            _dbContextContext.Avaliacoes.Update(avaliacao);
+            await _dbContextContext.SaveChangesAsync();
 
             return Ok("Avaliação editada com sucesso!");
         }
@@ -97,11 +97,11 @@ namespace Trab1_PS.Controllers
         [HttpDelete("review/{id}")]
         public async Task<IActionResult> DeleteReview(int id)
         {
-            var avaliacao = await _dbContext.Avaliacoes.FindAsync(id);
+            var avaliacao = await _dbContextContext.Avaliacoes.FindAsync(id);
             if (avaliacao == null) return NotFound("Avaliação não encontrada.");
 
-            _dbContext.Avaliacoes.Remove(avaliacao);
-            await _dbContext.SaveChangesAsync();
+            _dbContextContext.Avaliacoes.Remove(avaliacao);
+            await _dbContextContext.SaveChangesAsync();
 
             return Ok("Avaliação excluída com sucesso!");
         }
@@ -109,7 +109,7 @@ namespace Trab1_PS.Controllers
         [Route("usuarios")]
         public async Task<IActionResult> GetAllUsuarios()
         {
-            var usuarios = await _dbContext.Usuarios.ToListAsync();
+            var usuarios = await _dbContextContext.Usuarios.ToListAsync();
             //_dbContext.Usuarios acessa a tabela usuarios no banco
             //ToList consulta pra buscar todos registros
             //await espera a resposta sem parar execução

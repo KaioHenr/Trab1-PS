@@ -1,6 +1,6 @@
 ﻿namespace Trab1_PS.dto;
 
-public class UsuarioDto
+public class UsuarioDTO
 {
     public string Nome { get; set; }
     public string Email { get; set; }
@@ -8,7 +8,7 @@ public class UsuarioDto
     public int Id { get; set; }
 
 
-    public UsuarioDto(string nome, string email, string senha, int id)
+    public UsuarioDTO(string nome, string email, string senha, int id)
     {
         Nome = nome;
         Email = email;

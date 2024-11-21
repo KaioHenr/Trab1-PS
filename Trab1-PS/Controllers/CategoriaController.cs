@@ -8,10 +8,10 @@ namespace Trab1_PS.Controllers;
 [Route("api/[controller]")]
 public class CategoriaController : ControllerBase
 {
-    private readonly AvaliacaoDb _context;
+    private readonly AppDbContext _context;
     private readonly HttpClient _httpClient;
 
-    public CategoriaController(AvaliacaoDb context, HttpClient httpClient)
+    public CategoriaController(AppDbContext context, HttpClient httpClient)
     {
         _context = context;
         _httpClient = httpClient;
