@@ -1,0 +1,19 @@
+﻿@startuml
+actor Usuario as "Usuário"
+
+rectangle Sistema {
+    usecase "Cadastrar Usuário" as UC_CadastrarUsuario
+    usecase "Logar no Sistema" as UC_Logar
+    usecase "Avaliar Dorama" as UC_AvaliarDorama
+    usecase "Editar Avaliação" as UC_EditarAvaliacao
+    usecase "Excluir Avaliação" as UC_ExcluirAvaliacao
+    usecase "Visualizar Doramas" as UC_VisualizarDoramas
+}
+
+Usuario --> UC_CadastrarUsuario
+Usuario --> UC_Logar
+Usuario --> UC_AvaliarDorama
+Usuario --> UC_EditarAvaliacao
+Usuario --> UC_ExcluirAvaliacao
+Usuario --> UC_VisualizarDoramas
+@enduml
