@@ -1,0 +1,28 @@
+﻿@startuml
+
+package filmlandia {
+    package filmlandia {
+        package Controllers {}
+        package Data {
+        class AppDbContext 
+        }
+        package models {
+                package Dtos {}
+                package Entities {}
+            }
+        package Repository {
+                package Implementations {}
+                package Interfaces {}
+            }
+        }
+        package Repository {
+            package Implementations {}
+            package Interfaces {}
+        }
+        package Views {}
+
+    
+    }
+
+    }
+@enduml
