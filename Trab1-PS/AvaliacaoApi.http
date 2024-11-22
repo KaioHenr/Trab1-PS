@@ -2,12 +2,22 @@
 
 ###
 
-POST {{AvaliacaoApi_HostAddress}}/api/User/register
+POST {{AvaliacaoApi_HostAddress}}/api/User/cadastrar
 Content-Type: application/json
 
 {
-  "Id": 1,
   "Nome": "larissa rangel",
+  "Email": "larissa@gmail.com",
+  "Senha": "12345"
+}
+
+
+###
+
+POST {{AvaliacaoApi_HostAddress}}/api/User/login
+Content-Type: application/json
+
+{
   "Email": "larissa@gmail.com",
   "Senha": "12345"
 }
@@ -18,16 +28,38 @@ GET {{AvaliacaoApi_HostAddress}}/api/User/usuarios
 Content-Type: application/json
 ###
 
-POST {{AvaliacaoApi_HostAddress}}/usuarios
+
+POST {{AvaliacaoApi_HostAddress}}/api/User/cadastrar
 Content-Type: application/json
 
 {
-  "Nome": "irene",
-  "Email": "irene@gmail.com",
-  "Senha": "45677"
+  "Nome": "joao",
+  "Email": "joao@gmail.com",
+  "Senha": "456789"
 }
 
 ###
-GET https://localhost:7004/api/Filmes
-Accept: application/json
+
+POST {{AvaliacaoApi_HostAddress}}/api/User/cadastrar
+Content-Type: application/json
+
+{
+  "Nome": "pedro",
+  "Email": "pedro@gmail.com",
+  "Senha": "abcd"
+}
+
+###
+
+PUT {{AvaliacaoApi_HostAddress}}/api/User/2
+Content-Type: application/json
+
+{
+  "Nome": "Bruno",
+  "Email": "bruno@gmail.com",
+  "Senha": "abc123"
+}
+###
+DELETE {{AvaliacaoApi_HostAddress}}/api/User/3
+Content-Type: application/json
 ###
