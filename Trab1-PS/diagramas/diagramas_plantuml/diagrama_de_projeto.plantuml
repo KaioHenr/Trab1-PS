@@ -1,0 +1,29 @@
+﻿@startuml
+package filmlandia {
+        package Controllers {
+class UsuarioController
+class DoramaController
+}
+        package Data {
+        class AppDbContext 
+        }
+        package models {
+                package Dtos {
+class UsuarioDto
+class AvaliacaoDto
+}
+                package Entities {
+    class Avaliacao
+    class Dorama
+    class Usuario
+            }
+        
+
+       
+        }
+package views{}
+        
+
+    
+    }
+@enduml

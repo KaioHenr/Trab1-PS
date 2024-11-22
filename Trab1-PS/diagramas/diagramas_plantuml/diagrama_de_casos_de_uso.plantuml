@@ -1,5 +1,5 @@
 ﻿@startuml
-actor Usuario as "Usuário"
+actor Usuario as "Ator"
 
 rectangle Sistema {
     usecase "Cadastrar Usuário" as UC_CadastrarUsuario
