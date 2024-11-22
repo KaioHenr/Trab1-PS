@@ -19,4 +19,9 @@
       <PackageReference Include="SQLite" Version="3.13.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Repository\Implematations\" />
+      <Folder Include="Repository\Interfaces\" />
+    </ItemGroup>
+
 </Project>
