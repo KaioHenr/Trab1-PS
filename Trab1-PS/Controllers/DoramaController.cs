@@ -38,4 +38,40 @@ public class DoramaController : ControllerBase
         }
         return Ok(dorama);
     }
+    [HttpPut]
+    [Route("EditarDorama/{id}")]
+    public async Task<IActionResult> EditarDorama(int id, [FromBody] Dorama editDorama)
+    {
+        var dorama = await _context.Doramas.FindAsync(id);
+        if (dorama == null)
+        {
+            return NotFound("Dorama não encontrado");
+
+        }
+        
+        dorama.Titulo = editDorama.Titulo;
+        dorama.Descricao = editDorama.Descricao;
+        
+        _context.Doramas.Update(dorama);
+        await _context.SaveChangesAsync();
+        return Ok(new { Message = "Dorama editado com sucesso!" });
+        
+    }
+    
+    [HttpDelete]
+    [Route("DeletarDorama/{id}")]
+    public async Task<IActionResult> DeletarDorama(int id, [FromBody] Dorama DeleteDorama)
+    {
+        var dorama = await _context.Doramas.FindAsync(id);
+
+        if (dorama == null)
+        {
+            return NotFound("Dorama não encontrado");
+
+        }
+        _context.Doramas.Remove(dorama);
+        await _context.SaveChangesAsync();
+        return Ok("Dorama excluído com sucesso!");
+        
+    }
 }
