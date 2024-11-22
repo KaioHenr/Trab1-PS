@@ -1,4 +1,3 @@
-
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Trab1_PS.dto;
@@ -6,18 +5,14 @@ using Trab1_PS.Models;
 
 namespace Trab1_PS.Controllers
 {
-
-    
     [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
         private readonly AppDbContext _dbContextContext;
-
         public UserController(AppDbContext dbContextContext)
         {
             _dbContextContext = dbContextContext;
         }
-
         // Cadastrar Usuário
         [HttpPost]
         [Route("register")]
@@ -43,22 +38,16 @@ namespace Trab1_PS.Controllers
             
             return Ok(new { Message = "Usuário registrado com sucesso!" });
         }
-
-
-
         // Autenticar Usuário
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] UsuarioDTO loginDto)
         {
             var usuario = await _dbContextContext.Usuarios
                 .FirstOrDefaultAsync(u => u.Email == loginDto.Email && u.Senha == loginDto.Senha);
-
             if (usuario == null)
                 return Unauthorized("Usuário ou senha inválidos.");
-
             return Ok("Login realizado com sucesso!");
         }
-
         // Criar Avaliação
         [HttpPost("review")]
         public async Task<IActionResult> CreateReview([FromBody]AvaliacaoDTO avaliacaoDto)
@@ -66,10 +55,10 @@ namespace Trab1_PS.Controllers
             var usuario = await _dbContextContext.Usuarios.FindAsync(avaliacaoDto.IdUsuario);
             if (usuario == null) return NotFound("Usuário não encontrado.");
 
-            var categoria = await _dbContextContext.Categorias.FindAsync(avaliacaoDto.IdCategoria);
+            var categoria = await _dbContextContext.Doramas.FindAsync(avaliacaoDto.IdDorama);
             if (categoria == null) return NotFound("Categoria não encontrada.");
 
-            var avaliacao = new Avaliacao (avaliacaoDto.Id,avaliacaoDto.IdUsuario, avaliacaoDto.IdCategoria,avaliacaoDto.Nota, avaliacaoDto.Comentario, avaliacaoDto.DataAvaliacao.Year,avaliacaoDto.DataAvaliacao.Month,avaliacaoDto.DataAvaliacao.Day);
+            var avaliacao = new Avaliacao (avaliacaoDto.Id,avaliacaoDto.IdUsuario, avaliacaoDto.IdDorama,avaliacaoDto.Nota, avaliacaoDto.Comentario, avaliacaoDto.DataAvaliacao.Year,avaliacaoDto.DataAvaliacao.Month,avaliacaoDto.DataAvaliacao.Day);
 
             _dbContextContext.Avaliacoes.Add(avaliacao);
             await _dbContextContext.SaveChangesAsync();
@@ -116,7 +105,5 @@ namespace Trab1_PS.Controllers
             return Ok(usuarios);
             //volta a lista de objetos Usuario em json
         }
-
-
     }
 }
