@@ -1,47 +1,29 @@
-// using Microsoft.EntityFrameworkCore;
-// using Trab1_PS.Models;
-//
-// var builder = WebApplication.CreateBuilder(args);
-//
-// // Adiciona o DbContext e configura o banco de dados (SQLite no exemplo)
-// // builder.Services.AddDbContext<AvaliacaoDb>(options =>
-// //     options.UseSqlite("Data Source=avaliacao.db"));
-// Usuario test = new Usuario(1,"kaio","test@","123",new List<Avaliacao>());
-// Console.WriteLine(test);
-// // Adiciona serviços para controllers (somente para API)
-// builder.Services.AddControllers();
-//
-// var app = builder.Build();
-//
-// // Configuração do pipeline de requisições para a API
-// if (!app.Environment.IsDevelopment())
-// {
-//     app.UseExceptionHandler("/Home/Error");
-//     app.UseHsts();
-// }
-//
-//
-// app.UseHttpsRedirection();
-// app.UseAuthorization();
-//
-// // Mapear os controladores da API
-// app.MapControllers();
-//
-// app.Run();
 using Microsoft.EntityFrameworkCore;
 using Trab1_PS.Models;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddHttpClient();
 
 // Configurando o Entity Framework Core com InMemory
-builder.Services.AddDbContext<AppDbContext>(options => options.UseInMemoryDatabase("AvaliacaoDb"));
+// O banco de dados "AppDbContext" será armazenado na memória enquanto a aplicação estiver em execução
+builder.Services.AddDbContext<AppDbContext>(options => options.UseInMemoryDatabase("AppDbContext"));
 
-// Adicionando os controladores
+// Permite que a aplicação processe requisições HTTP que são para os controladores
 builder.Services.AddControllers();
 
-var app = builder.Build();
+// Configurando o suporte a sessões de login
+// Usado para armazenar informações temporárias, como login do usuário
+builder.Services.AddDistributedMemoryCache(); // Cache para gerenciar dados de sessão
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(10); // Tempo de expiração da sessão
+});
 
-// Configurando as rotas para controladores
+var app = builder.Build(); 
+
+
+
+// Mapeia os endpoints configurados nos controladores
 app.MapControllers();
 
 app.Run();

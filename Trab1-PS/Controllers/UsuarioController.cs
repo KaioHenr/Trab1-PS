@@ -10,13 +10,15 @@ namespace Trab1_PS.Controllers
     public class UserController : ControllerBase
     {
         private readonly AppDbContext _dbContextContext;
+
         public UserController(AppDbContext dbContextContext)
         {
             _dbContextContext = dbContextContext;
         }
+
         // Cadastrar Usuário
         [HttpPost("cadastrar")]
-        //async = metódo assicrono com task de mensagem(interface generica)
+        // metódo assicrono retorna task de mensagem(interface generica)
         public async Task<IActionResult> Cadastrar([FromBody] Usuario usuarioDto)
         {
             // Verifica na tabela usuarios do banco se o e-mail já está registrado
@@ -30,11 +32,11 @@ namespace Trab1_PS.Controllers
                 Email = usuarioDto.Email,
                 Senha = usuarioDto.Senha
             };
-            
+
             //Acessa a tabela usuarios no banco e adiciona esse usuario criado
             _dbContextContext.Usuarios.Add(usuario);
             await _dbContextContext.SaveChangesAsync();
-            
+
             return Ok("Usuário cadastrado com sucesso.");
         }
 
@@ -49,9 +51,12 @@ namespace Trab1_PS.Controllers
             if (usuario == null)
                 return Unauthorized("Usuário ou senha inválidos.");
 
+            // // Para salvar o "estar logado" na sessão
+            // HttpContext.Session.SetString("UsuarioLogado", usuario.Email);
+
             return Ok("Login realizado com sucesso!");
-    }
-        
+        }
+
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateUser(int id, [FromBody] Usuario updateDto)
         {
@@ -79,19 +84,19 @@ namespace Trab1_PS.Controllers
             var usuario = await _dbContextContext.Usuarios.FindAsync(id);
             if (usuario == null)
                 return NotFound("Usuário não encontrado.");
-            
+
             _dbContextContext.Usuarios.Remove(usuario);
             await _dbContextContext.SaveChangesAsync();
-            
+
             return Ok("Usuário deletado com sucesso!");
-            
+
         }
-        
+
         [HttpGet]
         [Route("usuarios")]
         public async Task<IActionResult> GetUsuarios()
         {
-            var usuarios = await _dbContextContext.Usuarios.ToListAsync();
+            var usuarios = await _dbContextContext.Usuarios.Include(u => u.Avaliacoes).ToListAsync();
             //_dbContext.Usuarios acessa a tabela usuarios no banco
             //ToList consulta pra buscar todos registros
             //await espera a resposta sem parar execução
@@ -101,42 +106,63 @@ namespace Trab1_PS.Controllers
 
         
         
-        
-        // Criar Avaliação
-        [HttpPost("avaliar")]
-        public async Task<IActionResult> CriarAvaliacao([FromBody]AvaliacaoDTO avaliacaoDto)
+        [HttpPost]
+        [Route("avaliar")]
+        public async Task<IActionResult> Avaliar([FromBody] Avaliacao avaliacao)
         {
-            
-            var usuario = await _dbContextContext.Usuarios.FindAsync(avaliacaoDto.IdUsuario);
-            if (usuario == null) return NotFound("Usuário não encontrado.");
+            // Buscar o usuário no banco de dados
+            var usuario = await _dbContextContext.Usuarios
+                .Include(u => u.Avaliacoes)
+                .FirstOrDefaultAsync(u => u.Email == avaliacao.EmailUsuario);
 
-            //Criando novo objeto de Avaliacao
-            var avaliacao = new Avaliacao (avaliacaoDto.Id,avaliacaoDto.IdUsuario, avaliacaoDto.IdDorama,avaliacaoDto.Nota, avaliacaoDto.Comentario, avaliacaoDto.DataAvaliacao.Year,avaliacaoDto.DataAvaliacao.Month,avaliacaoDto.DataAvaliacao.Day);
+            // Verificar se o usuário existe
+            if (usuario == null)
+            {
+                return NotFound("Usuário não encontrado.");
+            }
+
+            // Buscar o dorama no banco de dados
+            var dorama = await _dbContextContext.Doramas
+                .Include(d => d.Avaliacoes)
+                .FirstOrDefaultAsync(d => d.Titulo == avaliacao.NomeDorama);
+
+            // Verificar se o dorama existe
+            if (dorama == null)
+            {
+                return NotFound("Dorama não encontrado.");
+            }
             
+            avaliacao.DataAvaliacao = DateTime.Now;
+            usuario.Avaliacoes.Add(avaliacao);
+            dorama.Avaliacoes.Add(avaliacao);
+
             
-            _dbContextContext.Avaliacoes.Add(avaliacao);
             await _dbContextContext.SaveChangesAsync();
-
-            return Ok("Avaliação criada com sucesso!");
+            return Ok(new { Message = "Avaliação registrada com sucesso!" });
         }
         
-        
 
-        // Editar Avaliação
-        [HttpPut("{id}")]
-        public async Task<IActionResult> EditReview(int id, [FromBody] AvaliacaoDTO editDto)
+        [HttpPut("editar/{id}")]
+        public async Task<IActionResult> EditarAvaliacao(int id, [FromBody] Avaliacao editDto)
         {
-            var avaliacao = await _dbContextContext.Avaliacoes.Include(a => a.IdUsuario).FirstOrDefaultAsync(a => a.Id == id);
-            if (avaliacao == null) return NotFound("Avaliação não encontrada.");
+            
+            var avaliacao = await _dbContextContext.Avaliacoes
+                .FirstOrDefaultAsync(a => a.Id == id);
 
+            if (avaliacao == null)
+            {
+                return NotFound(new { Message = $"Avaliação com ID {id} não encontrada." });
+            }
+            
             avaliacao.Nota = editDto.Nota;
             avaliacao.Comentario = editDto.Comentario;
-
+            
             _dbContextContext.Avaliacoes.Update(avaliacao);
             await _dbContextContext.SaveChangesAsync();
 
-            return Ok("Avaliação editada com sucesso!");
+            return Ok(new { Message = "Avaliação editada com sucesso!" });
         }
+
 
         // Excluir Avaliação
         [HttpDelete("review/{id}")]
@@ -150,8 +176,7 @@ namespace Trab1_PS.Controllers
 
             return Ok("Avaliação excluída com sucesso!");
         }
-        
-        
-        
+
+
     }
 }

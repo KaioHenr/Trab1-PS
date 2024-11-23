@@ -11,23 +11,7 @@ Content-Type: application/json
   "Senha": "12345"
 }
 
-
 ###
-
-POST {{AvaliacaoApi_HostAddress}}/api/User/login
-Content-Type: application/json
-
-{
-  "Email": "larissa@gmail.com",
-  "Senha": "12345"
-}
-
-###
-
-GET {{AvaliacaoApi_HostAddress}}/api/User/usuarios
-Content-Type: application/json
-###
-
 
 POST {{AvaliacaoApi_HostAddress}}/api/User/cadastrar
 Content-Type: application/json
@@ -51,15 +35,262 @@ Content-Type: application/json
 
 ###
 
-PUT {{AvaliacaoApi_HostAddress}}/api/User/2
+POST {{AvaliacaoApi_HostAddress}}/api/User/cadastrar
 Content-Type: application/json
 
 {
-  "Nome": "Bruno",
-  "Email": "bruno@gmail.com",
-  "Senha": "abc123"
+  "Nome": "ana costa",
+  "Email": "ana@gmail.com",
+  "Senha": "98765"
 }
+
 ###
-DELETE {{AvaliacaoApi_HostAddress}}/api/User/3
+
+POST {{AvaliacaoApi_HostAddress}}/api/User/cadastrar
+Content-Type: application/json
+
+{
+  "Nome": "bruno silva",
+  "Email": "bruno@gmail.com",
+  "Senha": "qwerty"
+}
+
+###
+
+POST {{AvaliacaoApi_HostAddress}}/api/User/login
+Content-Type: application/json
+
+{
+  "Email": "larissa@gmail.com",
+  "Senha": "12345"
+}
+
+###
+
+GET {{AvaliacaoApi_HostAddress}}/api/User/usuarios
 Content-Type: application/json
 ###
+
+GET {{AvaliacaoApi_HostAddress}}/api/Dorama/PesquisarDorama/DoramaExemplo
+Content-Type: application/json
+###
+
+POST {{AvaliacaoApi_HostAddress}}/api/Dorama/CadastrarDorama
+Content-Type: application/json
+
+{
+  "Id": 1,
+  "Titulo": "Dorama Exemplo 1",
+  "Descricao": "Descrição do dorama 1",
+  "DataLancamento": "2024-11-23T00:00:00",
+  "Episodios": 12
+}
+
+###
+
+POST {{AvaliacaoApi_HostAddress}}/api/Dorama/CadastrarDorama
+Content-Type: application/json
+
+{
+  "Id": 2,
+  "Titulo": "Dorama Exemplo 2",
+  "Descricao": "Descrição do dorama 2",
+  "DataLancamento": "2024-11-23T00:00:00",
+  "Episodios": 10
+}
+
+###
+
+POST {{AvaliacaoApi_HostAddress}}/api/Dorama/CadastrarDorama
+Content-Type: application/json
+
+{
+  "Id": 3,
+  "Titulo": "Dorama Exemplo 3",
+  "Descricao": "Descrição do dorama 3",
+  "DataLancamento": "2024-11-23T00:00:00",
+  "Episodios": 6
+}
+
+###
+
+POST {{AvaliacaoApi_HostAddress}}/api/Dorama/CadastrarDorama
+Content-Type: application/json
+
+{
+  "Id": 4,
+  "Titulo": "Dorama Exemplo 4",
+  "Descricao": "Descrição do dorama 4",
+  "DataLancamento": "2024-11-23T00:00:00",
+  "Episodios": 8
+}
+
+###
+
+POST {{AvaliacaoApi_HostAddress}}/api/Dorama/CadastrarDorama
+Content-Type: application/json
+
+{
+  "Id": 5,
+  "Titulo": "Dorama Exemplo 5",
+  "Descricao": "Descrição do dorama 5",
+  "DataLancamento": "2024-11-23T00:00:00",
+  "Episodios": 10
+}
+
+###
+
+POST {{AvaliacaoApi_HostAddress}}/api/Dorama/CadastrarDorama
+Content-Type: application/json
+
+{
+  "Id": 6,
+  "Titulo": "Dorama Exemplo 6",
+  "Descricao": "Descrição do dorama 6",
+  "DataLancamento": "2024-11-23T00:00:00",
+  "Episodios": 13
+}
+
+###
+
+POST {{AvaliacaoApi_HostAddress}}/api/Dorama/CadastrarDorama
+Content-Type: application/json
+
+{
+  "Id": 7,
+  "Titulo": "Dorama Exemplo 7",
+  "Descricao": "Descrição do dorama 7",
+  "DataLancamento": "2024-11-23T00:00:00",
+  "Episodios": 15
+}
+
+###
+
+POST {{AvaliacaoApi_HostAddress}}/api/Dorama/CadastrarDorama
+Content-Type: application/json
+
+{
+  "Id": 8,
+  "Titulo": "Dorama Exemplo 8",
+  "Descricao": "Descrição do dorama 8",
+  "DataLancamento": "2024-11-23T00:00:00",
+  "Episodios": 20
+}
+
+###
+
+POST {{AvaliacaoApi_HostAddress}}/api/Dorama/CadastrarDorama
+Content-Type: application/json
+
+{
+  "Id": 9,
+  "Titulo": "Dorama Exemplo 9",
+  "Descricao": "Descrição do dorama 9",
+  "DataLancamento": "2024-11-23T00:00:00",
+  "Episodios": 11
+}
+
+###
+
+POST {{AvaliacaoApi_HostAddress}}/api/Dorama/CadastrarDorama
+Content-Type: application/json
+
+{
+  "Id": 10,
+  "Titulo": "Dorama Exemplo 10",
+  "Descricao": "Descrição do dorama 10",
+  "DataLancamento": "2024-11-23T00:00:00",
+  "Episodios": 5
+}
+
+###
+
+POST {{AvaliacaoApi_HostAddress}}/api/User/avaliar
+Content-Type: application/json
+
+{
+  "EmailUsuario": "larissa@gmail.com",
+  "NomeDorama": "Dorama Exemplo 1",
+  "Nota": 5,
+  "Comentario": "Excelente dorama!"
+}
+
+###
+
+POST {{AvaliacaoApi_HostAddress}}/api/User/avaliar
+Content-Type: application/json
+
+{
+  "EmailUsuario": "joao@gmail.com",
+  "NomeDorama": "Dorama Exemplo 2",
+  "Nota": 7,
+  "Comentario": "Bom, mas com espaço para melhorar."
+}
+
+###
+
+POST {{AvaliacaoApi_HostAddress}}/api/User/avaliar
+Content-Type: application/json
+
+{
+  "EmailUsuario": "pedro@gmail.com",
+  "NomeDorama": "Dorama Exemplo 3",
+  "Nota": 8,
+  "Comentario": "Gostei muito!"
+}
+
+###
+
+POST {{AvaliacaoApi_HostAddress}}/api/User/avaliar
+Content-Type: application/json
+
+{
+  "EmailUsuario": "ana@gmail.com",
+  "NomeDorama": "Dorama Exemplo 4",
+  "Nota": 6,
+  "Comentario": "A história é boa, mas a execução deixou a desejar."
+}
+
+###
+
+POST {{AvaliacaoApi_HostAddress}}/api/User/avaliar
+Content-Type: application/json
+
+{
+  "EmailUsuario": "bruno@gmail.com",
+  "NomeDorama": "Dorama Exemplo 5",
+  "Nota": 9,
+  "Comentario": "Adorei! Recomendo para todos."
+}
+
+###
+
+GET {{AvaliacaoApi_HostAddress}}/api/Dorama/doramas
+Content-Type: application/json
+###
+
+DELETE {{AvaliacaoApi_HostAddress}}/api/User/review/1
+Content-Type: application/json
+###
+
+PUT {{AvaliacaoApi_HostAddress}}/api/User/editar/2
+Content-Type: application/json
+
+{
+  "nota": 8,
+  "comentario": "Muito bom! Mas poderia ser melhor."
+}
+
+###
+
+DELETE {{AvaliacaoApi_HostAddress}}/api/Dorama/DeletarDorama/1
+Content-Type: application/json
+###
+
+PUT {{AvaliacaoApi_HostAddress}}/api/Dorama/EditarDorama/2
+Content-Type: application/json
+
+{
+  "Titulo": "Doramass",
+  "Descricao": "Nova descrição do dorama"
+}
