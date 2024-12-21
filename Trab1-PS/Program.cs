@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Trab1_PS.Models;
+using Trab1_PS.Data; // Adicione este using para o AppDbContext
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddHttpClient();
@@ -20,8 +21,6 @@ builder.Services.AddSession(options =>
 });
 
 var app = builder.Build(); 
-
-
 
 // Mapeia os endpoints configurados nos controladores
 app.MapControllers();
