@@ -1,0 +1,13 @@
+﻿services:
+  app:
+    build: .
+    ports:
+      - "7004:7004"  # Mapeia a porta 7004 do container para a máquina local (HTTPS)
+      - "5224:5224"  # Mapeia a porta 5224 do container para a máquina local (HTTP)
+      - "8080:8080"  # Mapeia a porta 8080 do container para a máquina local
+    environment:
+      DATABASE_HOST: database-2.cmrr7oj387em.us-east-1.rds.amazonaws.com
+      DATABASE_PORT: 5432
+      DATABASE_USER: larissa
+      DATABASE_PASSWORD: abc12345
+      DATABASE_NAME: database-2
