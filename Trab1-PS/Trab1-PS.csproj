@@ -10,6 +10,7 @@
     <ItemGroup>
       <Compile Remove="Models\filme.cs" />
       <Compile Remove="Models\IUsuarioRepository.cs" />
+      <Compile Remove="Views\**" />
     </ItemGroup>
 
     <ItemGroup>
@@ -17,6 +18,28 @@
       <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="9.0.0" />
       <PackageReference Include="RestSharp" Version="112.1.0" />
       <PackageReference Include="SQLite" Version="3.13.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="Views\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Remove="Views\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Views\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Views\Home\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Home\Privacy.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Shared\Error.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Shared\_Layout.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Shared\_ValidationScriptsPartial.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\_ViewImports.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\_ViewStart.cshtml" />
     </ItemGroup>
 
 </Project>
