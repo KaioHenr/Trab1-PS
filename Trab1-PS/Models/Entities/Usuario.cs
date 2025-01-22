@@ -7,4 +7,4 @@ public class Usuario
     public string Email { get; set; }
     public string Senha { get; set; }
     public List<Avaliacao> Avaliacoes { get; set; } = new List<Avaliacao>();
-}
+} 

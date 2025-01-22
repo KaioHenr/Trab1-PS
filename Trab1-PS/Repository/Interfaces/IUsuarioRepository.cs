@@ -11,5 +11,5 @@ public interface IUsuarioRepository
     Task<IEnumerable<Usuario>> GetAllAsync();
     Task<Usuario> AuthenticateAsync(string email, string senha);
     Task UpdateAsync(Usuario usuario);
-    Task DeleteAsync(int id);
+    Task DeleteAsync(int id);     
 }

@@ -41,6 +41,8 @@ public class DoramaRepository : IDoramaRepository
     public async Task<IEnumerable<Dorama>> SearchByTituloAsync(string titulo)
     {
         return await _context.Doramas
+            .Include(d => d.Avaliacoes) 
+            .Include(d => d.Generos)    
             .Where(d => EF.Functions.Like(d.Titulo, $"%{titulo}%"))
             .ToListAsync();
     }

@@ -1,28 +1,40 @@
+using Trab1_PS.Data; // Para o AppDbContext
+using Trab1_PS.Repository; // Para as implementações dos repositórios
+using Trab1_PS.Repository.Interfaces; // Para as interfaces dos repositórios
 using Microsoft.EntityFrameworkCore;
-using Trab1_PS.Models;
-using Trab1_PS.Data; // Adicione este using para o AppDbContext
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddHttpClient();
 
-// Configurando o Entity Framework Core com InMemory
-// O banco de dados "AppDbContext" será armazenado na memória enquanto a aplicação estiver em execução
-builder.Services.AddDbContext<AppDbContext>(options => options.UseInMemoryDatabase("AppDbContext"));
-
-// Permite que a aplicação processe requisições HTTP que são para os controladores
+// Configuração dos controladores
 builder.Services.AddControllers();
 
-// Configurando o suporte a sessões de login
-// Usado para armazenar informações temporárias, como login do usuário
-builder.Services.AddDistributedMemoryCache(); // Cache para gerenciar dados de sessão
-builder.Services.AddSession(options =>
+// Configuração do Swagger para documentação da API
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+// Configuração do Entity Framework com banco de dados InMemory
+builder.Services.AddDbContext<AppDbContext>(options =>
+        options.UseInMemoryDatabase(databaseName: "AppDbContext"),
+    ServiceLifetime.Scoped
+);
+
+// Registro dos repositórios no container de DI
+builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+builder.Services.AddScoped<IAvaliacaoRepository, AvaliacaoRepository>();
+builder.Services.AddScoped<IDoramaRepository, DoramaRepository>();
+
+var app = builder.Build();
+
+// Configuração para ambientes de desenvolvimento
+if (app.Environment.IsDevelopment())
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(10); // Tempo de expiração da sessão
-});
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
-var app = builder.Build(); 
-
-// Mapeia os endpoints configurados nos controladores
+// Configuração padrão do pipeline
+app.UseHttpsRedirection();
+app.UseAuthorization();
 app.MapControllers();
 
 app.Run();

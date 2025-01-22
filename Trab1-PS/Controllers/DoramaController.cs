@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Trab1_PS.dto;
 using Trab1_PS.Models;
 using Trab1_PS.Repository.Interfaces;
 
@@ -29,18 +30,30 @@ public class DoramaController : ControllerBase
     public async Task<IActionResult> PesquisarDorama([FromQuery] string titulo)
     {
         var doramas = await _doramaRepository.SearchByTituloAsync(titulo);
+
         if (!doramas.Any())
             return NotFound(new { Message = "Nenhum dorama encontrado!" });
+        var doramaDtos = doramas.Select(d => new DoramaDTO(
+            d.Id,
+            d.Titulo,
+            d.Descricao,
+            d.QtdEpisodios,
+            d.DataLancamento,
+            d.Generos.Select(g => g.Nome).ToList(),
+            d.Avaliacoes.Select(a => new AvaliacaoDTO(
+                a.Id,
+                a.UsuarioId,
+                a.DoramaId,
+                a.Nota,
+                a.Comentario,
+                a.DataAvaliacao
+            )).ToList()
+        ));
 
-        return Ok(doramas);
+        return Ok(doramaDtos);
     }
 
-    [HttpGet("doramas")]
-    public async Task<IActionResult> GetAllDoramas()
-    {
-        var doramas = await _doramaRepository.GetAllAsync();
-        return Ok(doramas);
-    }
+  
 
     [HttpPut("EditarDorama/{id}")]
     public async Task<IActionResult> EditarDorama(int id, [FromBody] Dorama dorama)
