@@ -1,29 +1,48 @@
 ﻿@startuml
 package filmlandia {
+
         package Controllers {
-class UsuarioController
-class DoramaController
-}
+        class UsuarioController
+        class DoramaController
+        class AvaliacaoController
+        }
+        
+        
         package Data {
         class AppDbContext 
         }
         package models {
                 package Dtos {
-class UsuarioDto
-class AvaliacaoDto
+        class UsuarioDto
+        class AvaliacaoDto
 }
                 package Entities {
-    class Avaliacao
-    class Dorama
-    class Usuario
+        class Avaliacao
+        class Dorama
+        class Usuario
+        class Genero
             }
         
 
        
+       
         }
-package views{}
-        
 
-    
-    }
+        package Repository{
+        
+        package Implementations{
+        
+        class AvaliacaoRepository
+        class DoramaRepository
+        class UsuarioRepository
+        }
+        package Interfaces{
+        
+        class IAvaliacaoRepository
+        class IDoramaRepository
+        class IUsuarioRepository
+        
+        }
+        
+}
 @enduml
