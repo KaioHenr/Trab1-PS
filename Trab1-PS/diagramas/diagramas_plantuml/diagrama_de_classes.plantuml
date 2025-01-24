@@ -1,9 +1,11 @@
-﻿@startuml
+﻿
+@startuml
 class Usuario {
     + int Id
     + string Nome
     + string Email
     + string Senha
+    + List<Avaliacao> Avaliacoes
     --
     + Cadastrar()
     + Logar()
@@ -11,10 +13,13 @@ class Usuario {
 
 class Avaliacao {
     + int Id
-    + int Nota
-    + string Comentario
     + int UsuarioId
+    + Usuario Usuario
     + int DoramaId
+    + Dorama Dorama
+    + int Nota
+    + String Comentario
+    + DateTime DataAvaliacao
     --
     + CriarAvaliacao()
     + EditarAvaliacao()
@@ -24,14 +29,22 @@ class Avaliacao {
 class Dorama {
     + int Id
     + string Titulo
-    + string Genero
     + string Descricao
-    + ICollection<int> Episodios
+    + int QtdEpisodios
+    + DateTime DataLancamento
+    + List<Genero> Generos
+    + List<Avaliacao> Avaliacoes
+    
     --
     + ListarEpisodios()
+}
+class Genero {
+    + int Id
+    + string Nome
 }
 
 Usuario "1" -- "0..*" Avaliacao : "realiza"
 Dorama "1" -- "0..*" Avaliacao : "é avaliado em"
+
 
 @enduml
