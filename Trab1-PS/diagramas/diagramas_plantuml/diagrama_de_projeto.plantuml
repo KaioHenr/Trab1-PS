@@ -1,5 +1,5 @@
 ﻿@startuml
-package filmlandia {
+package Dorama {
 
         package Controllers {
         class UsuarioController
