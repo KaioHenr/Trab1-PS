@@ -7,13 +7,5 @@
     public string Comentario { get; set; }
     public DateTime DataAvaliacao { get; set; }
 
-    public AvaliacaoDTO(int id, int usuarioId, int doramaId, int nota, string comentario, DateTime dataAvaliacao)
-    {
-        Id = id;
-        UsuarioId = usuarioId;
-        DoramaId = doramaId;
-        Nota = nota;
-        Comentario = comentario;
-        DataAvaliacao = dataAvaliacao;
-    }
+  
 }

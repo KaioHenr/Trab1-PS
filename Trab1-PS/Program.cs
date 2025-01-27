@@ -22,6 +22,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<IAvaliacaoRepository, AvaliacaoRepository>();
 builder.Services.AddScoped<IDoramaRepository, DoramaRepository>();
+builder.Services.AddScoped<IGeneroRepository, GeneroRepository>();
+
 
 var app = builder.Build();
 

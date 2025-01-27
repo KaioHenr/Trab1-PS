@@ -52,12 +52,17 @@ namespace Trab1_PS.Data
 
              
             });
-
+            
             modelBuilder.Entity<Genero>(entity =>
-            {
-                entity.HasKey(g => g.Id);
-                entity.Property(g => g.Nome).IsRequired();
-            });
+
+                {
+                    entity.HasKey(e => e.Id);
+                    entity.Property(e => e.Nome).IsRequired();
+
+                }
+                
+            );
+        
         }
     }
 }

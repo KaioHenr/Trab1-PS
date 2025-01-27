@@ -33,7 +33,7 @@ public class AvaliacaoRepository : IAvaliacaoRepository
     }
 
     public async Task DeleteAsync(int id)
-    {
+    {   
         var avaliacao = await _context.Avaliacoes.FindAsync(id);
         if (avaliacao != null)
         {
