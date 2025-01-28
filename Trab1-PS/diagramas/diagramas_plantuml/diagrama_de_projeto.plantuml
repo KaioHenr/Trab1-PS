@@ -5,6 +5,7 @@ package Dorama {
         class UsuarioController
         class DoramaController
         class AvaliacaoController
+        class GeneroController
         }
         
         
@@ -15,6 +16,8 @@ package Dorama {
                 package Dtos {
         class UsuarioDto
         class AvaliacaoDto
+        class GeneroDto
+        class DoramaDto
 }
                 package Entities {
         class Avaliacao
@@ -35,12 +38,14 @@ package Dorama {
         class AvaliacaoRepository
         class DoramaRepository
         class UsuarioRepository
+        class GeneroRepository
         }
         package Interfaces{
         
         class IAvaliacaoRepository
         class IDoramaRepository
         class IUsuarioRepository
+        class IGeneroRepository
         
         }
         
