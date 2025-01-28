@@ -20,7 +20,7 @@ namespace Trab1_PS.Controllers
             _doramaRepository = doramaRepository;
         }
 
-        [HttpPost]
+        [HttpPost ("CadastrarAvaliacao")]
         public async Task<IActionResult> CadastrarAvaliacao([FromBody] AvaliacaoDTO avaliacaoDTO)
         {
             // Verifica se o Usuário existe
@@ -50,7 +50,7 @@ namespace Trab1_PS.Controllers
             return Ok("Avaliação cadastrada com sucesso!");
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("EditarAvaliacao")]
         public async Task<IActionResult> EditarAvaliacao(int id, [FromBody] AvaliacaoDTO avaliacaoDTO)
         {
             var avaliacao = await _avaliacaoRepository.GetByIdAsync(id);
@@ -80,7 +80,7 @@ namespace Trab1_PS.Controllers
             return Ok("Avaliação editada com sucesso!");
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("DeletarAvaliacao")]
         public async Task<IActionResult> DeletarAvaliacao(int id)
         {
             var avaliacao = await _avaliacaoRepository.GetByIdAsync(id);
@@ -93,7 +93,7 @@ namespace Trab1_PS.Controllers
             return Ok("Avaliação deletada com sucesso!");
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("ObterAvaliacaoPorId")]
         public async Task<IActionResult> ObterAvaliacaoPorId(int id)
         {
             var avaliacao = await _avaliacaoRepository.GetByIdAsync(id);

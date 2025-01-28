@@ -41,6 +41,7 @@ public class DoramaRepository : IDoramaRepository
     public async Task<IEnumerable<Dorama>> SearchByTituloAsync(string titulo)
     {
         return await _context.Doramas
+            .Include(d => d.Avaliacoes)
             .Where(d => EF.Functions.Like(d.Titulo, $"%{titulo}%"))
             .ToListAsync();
     }
@@ -59,5 +60,12 @@ public class DoramaRepository : IDoramaRepository
             _context.Doramas.Remove(dorama);
             await _context.SaveChangesAsync();
         }
+    }
+
+    public async Task<Genero> ObterGeneroPorIdAsync(int generoId)
+    {
+        // Busca o gênero no banco de dados com base no ID
+        return await _context.Generos
+            .FirstOrDefaultAsync(g => g.Id == generoId);
     }
 }
