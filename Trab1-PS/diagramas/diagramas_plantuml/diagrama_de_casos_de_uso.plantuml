@@ -8,6 +8,8 @@ rectangle Sistema {
     usecase "Editar Avaliação" as UC_EditarAvaliacao
     usecase "Excluir Avaliação" as UC_ExcluirAvaliacao
     usecase "Visualizar Doramas" as UC_VisualizarDoramas
+    usecase "Pesquisar Dorama" as UC_PesquisarDorama
+    usecase "Cadastrar Dorama" as UC_CadastrarDorama
 }
 
 Usuario --> UC_CadastrarUsuario
@@ -16,4 +18,6 @@ Usuario --> UC_AvaliarDorama
 Usuario --> UC_EditarAvaliacao
 Usuario --> UC_ExcluirAvaliacao
 Usuario --> UC_VisualizarDoramas
+Usuario --> UC_PesquisarDorama
+Usuario --> UC_CadastrarDorama
 @enduml

@@ -45,7 +45,7 @@ class Genero {
 
 Usuario "1" -- "0..*" Avaliacao : "realiza"
 Dorama "1" -- "0..*" Avaliacao : "é avaliado em"
-Dorama "1" -- "1" Genero : "possui"
+Dorama "*" -- "*" Genero : "se enquadra em"
 
 
 
