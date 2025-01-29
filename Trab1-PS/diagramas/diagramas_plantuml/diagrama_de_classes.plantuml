@@ -1,0 +1,52 @@
+﻿
+@startuml
+class Usuario {
+    + int Id
+    + string Nome
+    + string Email
+    + string Senha
+    + List<Avaliacao> Avaliacoes
+    --
+    + Cadastrar()
+    + Logar()
+}
+
+class Avaliacao {
+    + int Id
+    + int UsuarioId
+    + Usuario Usuario
+    + int DoramaId
+    + Dorama Dorama
+    + int Nota
+    + String Comentario
+    + DateTime DataAvaliacao
+    --
+    + CriarAvaliacao()
+    + EditarAvaliacao()
+    + ExcluirAvaliacao()
+}
+
+class Dorama {
+    + int Id
+    + string Titulo
+    + string Descricao
+    + int QtdEpisodios
+    + DateTime DataLancamento
+    + List<Genero> Generos
+    + List<Avaliacao> Avaliacoes
+    
+    --
+    + ListarEpisodios()
+}
+class Genero {
+    + int Id
+    + string Nome
+}
+
+Usuario "1" -- "0..*" Avaliacao : "realiza"
+Dorama "1" -- "0..*" Avaliacao : "é avaliado em"
+Dorama "*" -- "*" Genero : "se enquadra em"
+
+
+
+@enduml

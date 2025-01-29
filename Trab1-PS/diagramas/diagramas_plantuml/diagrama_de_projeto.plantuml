@@ -1,0 +1,53 @@
+﻿@startuml
+package Dorama {
+
+        package Controllers {
+        class UsuarioController
+        class DoramaController
+        class AvaliacaoController
+        class GeneroController
+        }
+        
+        
+        package Data {
+        class AppDbContext 
+        }
+        package models {
+                package Dtos {
+        class UsuarioDto
+        class AvaliacaoDto
+        class GeneroDto
+        class DoramaDto
+}
+                package Entities {
+        class Avaliacao
+        class Dorama
+        class Usuario
+        class Genero
+            }
+        
+
+       
+       
+        }
+
+        package Repository{
+        
+        package Implementations{
+        
+        class AvaliacaoRepository
+        class DoramaRepository
+        class UsuarioRepository
+        class GeneroRepository
+        }
+        package Interfaces{
+        
+        class IAvaliacaoRepository
+        class IDoramaRepository
+        class IUsuarioRepository
+        class IGeneroRepository
+        
+        }
+        
+}
+@enduml
