@@ -18,14 +18,29 @@ namespace Trab1_PS.Controllers
         }
 
         [HttpPost("cadastrar")]
-        public async Task<IActionResult> Cadastrar([FromBody] Usuario usuario)
-        {
-            if (await _usuarioRepository.ExistsByEmailAsync(usuario.Email))
+        public async Task<IActionResult> Cadastrar([FromBody] UsuarioDTO usuarioDto)
+        { //async : pode fazer operações sem bloquear o fluxo do programa
+            // retorna tipo Task com resposta
+            if (await _usuarioRepository.ExistsByEmailAsync(usuarioDto.Email))
                 return BadRequest("E-mail já cadastrado.");
-
-            await _usuarioRepository.AddAsync(usuario);
-            return Ok("Usuário cadastrado com sucesso.");
+        
+            var usuario = new Usuario
+            {
+                Nome = usuarioDto.Nome,
+                Email = usuarioDto.Email,
+                Senha = usuarioDto.Senha
+            };
+        
+            await _usuarioRepository.AddAsync(usuario); // Adiciona novo usuario no BD
+        
+            return Ok(new
+            {
+                Message = "Usuário cadastrado com sucesso.",
+                UsuarioId = usuario.Id
+            });
         }
+
+
 
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] Usuario usuario)

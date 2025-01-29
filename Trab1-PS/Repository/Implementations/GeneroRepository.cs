@@ -15,79 +15,68 @@ namespace Trab1_PS.Repository
             _context = context;
         }
 
-        // Criar um novo gênero no banco de dados
+        // Método para criar um novo gênero no banco de dados
         public async Task<GeneroDTO> CriarGeneroAsync(GeneroDTO generoDto)
         {
-            // Convertendo o DTO para a entidade do modelo e atribuindo o ID
+            // Cria a entidade Genero a partir do DTO, mas sem o ID
             var genero = new Genero
             {
-                Id = generoDto.Id, // Respeita o ID fornecido pelo usuário
-                Nome = generoDto.Nome
+                Nome = generoDto.Nome // O Id será gerado automaticamente
             };
 
-            // Adicionando o gênero no contexto do banco de dados
+            // Adiciona o gênero no banco de dados
             await _context.Generos.AddAsync(genero);
-            await _context.SaveChangesAsync(); // Salvando as alterações no banco
 
-            return generoDto; // Retorna o DTO sem alterar o ID fornecido
+            // Salva as mudanças no banco de dados (o Id será gerado automaticamente)
+            await _context.SaveChangesAsync();
+
+            // Retorna o DTO com o Id gerado automaticamente
+            return new GeneroDTO
+            {
+                Nome = genero.Nome // O Id gerado é apenas retornado, não deve ser preenchido no DTO de entrada
+            };
         }
 
-        // Obter um gênero pelo ID
+        // Método para obter um gênero pelo ID
         public async Task<GeneroDTO> ObterGeneroPorIdAsync(int id)
         {
             var genero = await _context.Generos
                 .Where(g => g.Id == id)
                 .FirstOrDefaultAsync();
 
-            // Retornando o DTO com as informações do gênero encontrado
             if (genero == null) return null;
 
             return new GeneroDTO
             {
-                Id = genero.Id,
-                Nome = genero.Nome
+                Nome = genero.Nome // Não retornamos o Id aqui
             };
         }
 
-        // Listar todos os gêneros
+        // Método para obter um gênero pelo nome
+        public async Task<GeneroDTO> ObterGeneroPorNomeAsync(string nome)
+        {
+            var genero = await _context.Generos
+                .FirstOrDefaultAsync(g => g.Nome.ToLower() == nome.ToLower());
+
+            if (genero == null) return null;
+
+            return new GeneroDTO
+            {
+                Nome = genero.Nome // Não retornamos o Id na busca pelo nome
+            };
+        }
+
+        // Método para listar os gêneros pelos IDs fornecidos
         public async Task<IEnumerable<GeneroDTO>> ListarGenerosAsync(List<int> doramaGenerosIds)
         {
             var generos = await _context.Generos
-                .Where(g => doramaGenerosIds.Contains(g.Id)) // Filtra os gêneros pelos IDs fornecidos
+                .Where(g => doramaGenerosIds.Contains(g.Id))
                 .ToListAsync();
 
             return generos.Select(g => new GeneroDTO
             {
-                Id = g.Id,
-                Nome = g.Nome
+                Nome = g.Nome // Não retornamos o Id no DTO
             }).ToList();
-        }
-
-
-
-
-        public async Task<GeneroDTO> ObterGeneroPorNomeAsync(string nome)
-        {
-            var genero = await _context.Generos
-                .FirstOrDefaultAsync(g =>
-                    g.Nome.ToLower() == nome.ToLower()); // Compara nomes ignorando maiúsculas/minúsculas
-
-            if (genero == null) return null;
-
-            return new GeneroDTO
-
-            {
-                Id = genero.Id,
-                Nome = genero.Nome
-            };
-
-        }
-        
-        public async Task<IEnumerable<Genero>> ListarGenerosAsync(IEnumerable<int> generoIds)
-        {
-            return await _context.Generos
-                .Where(g => generoIds.Contains(g.Id))
-                .ToListAsync();
         }
     }
 }
