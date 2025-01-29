@@ -31,6 +31,7 @@ namespace Trab1_PS.Data
             modelBuilder.Entity<Dorama>(entity =>
             {
                 entity.HasKey(e => e.Id);
+                entity.Property(e => e.Id).ValueGeneratedOnAdd(); // Garante geração automática do ID
                 entity.Property(e => e.Titulo).IsRequired();
                 entity.Property(e => e.Descricao).IsRequired();
                 entity.Property(e => e.DataLancamento).IsRequired();

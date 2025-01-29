@@ -21,27 +21,38 @@
         {
             if (generoDto == null || string.IsNullOrWhiteSpace(generoDto.Nome))
             {
-                return BadRequest("Gênero cadastrado com sucesso.");
-            }
-
-            // Verifica se o ID já existe
-            var generoExistentePorId = await _generoRepository.ObterGeneroPorIdAsync(generoDto.Id);
-            if (generoExistentePorId != null)
-            {
-                return Conflict($"Já existe um gênero com o ID {generoDto.Id}.");
+                return BadRequest("Nome do gênero é obrigatório.");
             }
 
             // Verifica se o nome já existe
-            var generoExistentePorNome = await _generoRepository.ObterGeneroPorNomeAsync(generoDto.Nome);
-            if (generoExistentePorNome != null)
+            var generoExistente = await _generoRepository.ObterGeneroPorNomeAsync(generoDto.Nome);
+            if (generoExistente != null)
             {
                 return Conflict($"O gênero '{generoDto.Nome}' já existe.");
             }
 
-            // Cria o gênero no banco de dados
+            // Cria o objeto Genero (sem passar o Id, pois será gerado automaticamente no repositório)
             var generoCriado = await _generoRepository.CriarGeneroAsync(generoDto);
-            return CreatedAtAction(nameof(ObterGeneroPorId), new { id = generoCriado.Id }, new { message = "Gênero cadastrado com sucesso.", genero = generoCriado });
+
+            // Retorna a resposta sem o Id no DTO, apenas a mensagem e o nome do gênero
+            return CreatedAtAction(nameof(ObterGeneroPorNome), new { nome = generoCriado.Nome }, 
+                new { message = "Gênero cadastrado com sucesso.", nome = generoCriado.Nome});
         }
+
+// Adicione este método para permitir a consulta de gênero pelo nome
+        [HttpGet("ObterGeneroPorNome")]
+        public async Task<IActionResult> ObterGeneroPorNome([FromQuery] string nome)
+        {
+            var genero = await _generoRepository.ObterGeneroPorNomeAsync(nome);
+
+            if (genero == null)
+            {
+                return NotFound(new { message = $"Gênero '{nome}' não encontrado." });
+            }
+
+            return Ok(new { nome = genero.Nome });
+        }
+
 
         
         [HttpGet("ObterGeneroPorId/{id}")]

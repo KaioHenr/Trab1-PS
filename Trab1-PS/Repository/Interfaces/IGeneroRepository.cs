@@ -7,6 +7,6 @@ public interface IGeneroRepository
 {
     Task<GeneroDTO> CriarGeneroAsync(GeneroDTO generoDto);
     Task<GeneroDTO> ObterGeneroPorIdAsync(int id);
-    Task<IEnumerable<GeneroDTO>> ListarGenerosAsync(List<int> id);
     Task<GeneroDTO> ObterGeneroPorNomeAsync(string nome);
+    Task<IEnumerable<GeneroDTO>> ListarGenerosAsync(List<int> id);
 }

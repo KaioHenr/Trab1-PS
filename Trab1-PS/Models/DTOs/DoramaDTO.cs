@@ -4,7 +4,6 @@ namespace Trab1_PS.Models
 {
     public class DoramaDTO
     {
-        public int Id { get; set; }
         public string Titulo { get; set; }
         public string Descricao { get; set; }
         public int QtdEpisodios { get; set; }

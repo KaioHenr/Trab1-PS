@@ -19,36 +19,40 @@ namespace Trab1_PS.Controllers
             _usuarioRepository = usuarioRepository;
             _doramaRepository = doramaRepository;
         }
-
-        [HttpPost ("CadastrarAvaliacao")]
+        
+        [HttpPost("CadastrarAvaliacao")]
         public async Task<IActionResult> CadastrarAvaliacao([FromBody] AvaliacaoDTO avaliacaoDTO)
         {
             // Verifica se o Usuário existe
-            var usuario = await _usuarioRepository.GetByIdAsync(avaliacaoDTO.UsuarioId); // Alterado para UsuarioId
+            var usuario = await _usuarioRepository.GetByIdAsync(avaliacaoDTO.UsuarioId);
             if (usuario == null)
-            {
-                return NotFound($"Usuário com ID {avaliacaoDTO.UsuarioId} não encontrado."); // Alterado para UsuarioId
-            }
+                return NotFound(new { Message = $"Usuário com ID {avaliacaoDTO.UsuarioId} não encontrado." });
 
             // Verifica se o Dorama existe
-            var dorama = await _doramaRepository.GetByIdAsync(avaliacaoDTO.DoramaId); // Alterado para DoramaId
+            var dorama = await _doramaRepository.GetByIdAsync(avaliacaoDTO.DoramaId);
             if (dorama == null)
-            {
-                return NotFound($"Dorama com ID {avaliacaoDTO.DoramaId} não encontrado."); // Alterado para DoramaId
-            }
+                return NotFound(new { Message = $"Dorama com ID {avaliacaoDTO.DoramaId} não encontrado." });
 
+            // Cria a entidade Avaliacao com Id gerado automaticamente
             var avaliacao = new Avaliacao
             {
-                UsuarioId = usuario.Id,
-                DoramaId = dorama.Id,
+                UsuarioId = avaliacaoDTO.UsuarioId,
+                DoramaId = avaliacaoDTO.DoramaId,
                 Nota = avaliacaoDTO.Nota,
                 Comentario = avaliacaoDTO.Comentario,
                 DataAvaliacao = avaliacaoDTO.DataAvaliacao
             };
 
             await _avaliacaoRepository.AddAsync(avaliacao);
-            return Ok("Avaliação cadastrada com sucesso!");
+
+            return Ok(new
+            {
+                Message = "Avaliação cadastrada com sucesso!",
+                AvaliacaoId = avaliacao.Id // Retorna o ID gerado
+            });
         }
+
+
 
         [HttpPut("EditarAvaliacao")]
         public async Task<IActionResult> EditarAvaliacao(int id, [FromBody] AvaliacaoDTO avaliacaoDTO)
