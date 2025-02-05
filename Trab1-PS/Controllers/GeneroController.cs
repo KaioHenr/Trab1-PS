@@ -1,89 +1,78 @@
-﻿    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.EntityFrameworkCore;
-    using Trab1_PS.dto;
-    using Trab1_PS.Models;
-    using Trab1_PS.Models.DTOs;
-    using Trab1_PS.Repository.Interfaces;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Trab1_PS.Models.DTOs;
+using Trab1_PS.Services;
 
-    [Route("api/[controller]")]
-    [ApiController]
-    public class GeneroController : ControllerBase
+[Route("api/[controller]")]
+[ApiController]
+public class GeneroController : ControllerBase
+{
+    private readonly IGeneroService _generoService;
+
+    public GeneroController(IGeneroService generoService)
     {
-        private readonly IGeneroRepository _generoRepository;
+        _generoService = generoService;
+    }
 
-        public GeneroController(IGeneroRepository generoRepository)
+    [HttpPost("CriarGenero")]
+    public async Task<IActionResult> CriarGenero([FromBody] GeneroDTO generoDto)
+    {
+        var (sucesso, mensagem) = await _generoService.CriarGenero(generoDto);
+
+        if (!sucesso)
         {
-            _generoRepository = generoRepository;
+            return BadRequest(new { message = mensagem });
         }
 
-        [HttpPost("CriarGenero")]
-        public async Task<IActionResult> CriarGenero([FromBody] GeneroDTO generoDto)
+        return CreatedAtAction(nameof(ObterGeneroPorNome), new { nome = generoDto.Nome }, 
+            new { message = mensagem, nome = generoDto.Nome });
+    }
+
+    [HttpGet("ObterGeneroPorNome")]
+    public async Task<IActionResult> ObterGeneroPorNome([FromQuery] string nome)
+    {
+        try
         {
-            if (generoDto == null || string.IsNullOrWhiteSpace(generoDto.Nome))
-            {
-                return BadRequest("Nome do gênero é obrigatório.");
-            }
-
-            // Verifica se o nome já existe
-            var generoExistente = await _generoRepository.ObterGeneroPorNomeAsync(generoDto.Nome);
-            if (generoExistente != null)
-            {
-                return Conflict($"O gênero '{generoDto.Nome}' já existe.");
-            }
-
-            // Cria o objeto Genero (sem passar o Id, pois será gerado automaticamente no repositório)
-            var generoCriado = await _generoRepository.CriarGeneroAsync(generoDto);
-
-            // Retorna a resposta sem o Id no DTO, apenas a mensagem e o nome do gênero
-            return CreatedAtAction(nameof(ObterGeneroPorNome), new { nome = generoCriado.Nome }, 
-                new { message = "Gênero cadastrado com sucesso.", nome = generoCriado.Nome});
-        }
-
-// Adicione este método para permitir a consulta de gênero pelo nome
-        [HttpGet("ObterGeneroPorNome")]
-        public async Task<IActionResult> ObterGeneroPorNome([FromQuery] string nome)
-        {
-            var genero = await _generoRepository.ObterGeneroPorNomeAsync(nome);
-
-            if (genero == null)
-            {
-                return NotFound(new { message = $"Gênero '{nome}' não encontrado." });
-            }
-
-            return Ok(new { nome = genero.Nome });
-        }
-
-
-        
-        [HttpGet("ObterGeneroPorId/{id}")]
-        public async Task<IActionResult> ObterGeneroPorId(int id)
-        {
-            var genero = await _generoRepository.ObterGeneroPorIdAsync(id);
-            if (genero == null)
-            {
-                return NotFound($"Gênero com id {id} não encontrado.");
-            }
-
+            var genero = await _generoService.ObterGeneroPorNome(nome);
             return Ok(genero);
         }
-        [HttpPost("ListarGeneros")]
-        public async Task<IActionResult> ListarGeneros([FromBody] List<int> generoIds)
+        catch (KeyNotFoundException ex)
         {
-            if (generoIds == null || !generoIds.Any())
-            {
-                return BadRequest("Lista de IDs de gêneros não fornecida ou vazia.");
-            }
-
-            // Busca os gêneros com base nos IDs fornecidos
-            var generos = await _generoRepository.ListarGenerosAsync(generoIds);
-
-            if (!generos.Any())
-            {
-                return NotFound("Nenhum gênero encontrado para os IDs fornecidos.");
-            }
-
-            return Ok(generos);
+            return NotFound(new { message = ex.Message });
         }
     }
-     
-    
+
+    [HttpGet("ObterGeneroPorId/{id}")]
+    public async Task<IActionResult> ObterGeneroPorId(int id)
+    {
+        try
+        {
+            var genero = await _generoService.ObterGeneroPorId(id);
+            return Ok(genero);
+        }
+        catch (KeyNotFoundException ex)
+        {
+            return NotFound(new { message = ex.Message });
+        }
+    }
+
+    [HttpPost("ListarGeneros")]
+    public async Task<IActionResult> ListarGeneros([FromBody] List<int> generoIds)
+    {
+        try
+        {
+            var generos = await _generoService.ListarGeneros(generoIds);
+            return Ok(generos);
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
+        catch (KeyNotFoundException ex)
+        {
+            return NotFound(new { message = ex.Message });
+        }
+    }
+}
