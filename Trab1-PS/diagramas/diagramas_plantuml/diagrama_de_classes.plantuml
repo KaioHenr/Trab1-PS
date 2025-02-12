@@ -1,7 +1,7 @@
 ﻿
 @startuml
 class Usuario {
-    + int Id
+   
     + string Nome
     + string Email
     + string Senha
@@ -12,10 +12,7 @@ class Usuario {
 }
 
 class Avaliacao {
-    + int Id
-    + int UsuarioId
     + Usuario Usuario
-    + int DoramaId
     + Dorama Dorama
     + int Nota
     + String Comentario
@@ -27,7 +24,6 @@ class Avaliacao {
 }
 
 class Dorama {
-    + int Id
     + string Titulo
     + string Descricao
     + int QtdEpisodios
@@ -39,7 +35,7 @@ class Dorama {
     + ListarEpisodios()
 }
 class Genero {
-    + int Id
+    
     + string Nome
 }
 
