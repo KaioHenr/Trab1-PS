@@ -12,6 +12,15 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowVueApp",
+        builder => builder.WithOrigins("http://localhost:5173")
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowCredentials());
+});
+
 // Configuração do Entity Framework com banco de dados InMemory
 builder.Services.AddDbContext<AppDbContext>(options =>
         options.UseInMemoryDatabase(databaseName: "AppDbContext"),
@@ -35,6 +44,7 @@ if (app.Environment.IsDevelopment())
 }
 
 // Configuração padrão do pipeline
+app.UseCors("AllowVueApp");
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
