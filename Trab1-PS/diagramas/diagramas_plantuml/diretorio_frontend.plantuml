@@ -1,0 +1,27 @@
+﻿@startuml
+
+package Dorama {
+
+    package src {
+
+        package assets { }
+        package components { }
+        package controllers { }
+        package composables { }
+        
+        package models {
+            package generic { }
+            package repositories { }
+        }
+        
+        package plugins { }
+        package router { }
+        package services { }
+        package styles { }
+        package views { }
+
+    }
+
+}
+
+@enduml
