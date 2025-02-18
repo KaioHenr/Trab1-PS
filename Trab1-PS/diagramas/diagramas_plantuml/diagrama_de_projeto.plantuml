@@ -1,22 +1,10 @@
 ﻿@startuml
 package Dorama {
 
-        package Controllers {
+      package Services {
+                package Interfaces {
        
-        }
-        
-        
-        package Data {
-        class AppDbContext 
-        }
-        package models {
-                package Dtos {
-       
-}
-                package Entities {
-        
-            }
-        
+}       
 
        
        
@@ -32,12 +20,33 @@ package Dorama {
      
         
         }
+}
 
-        package Service{
+        package models {
+                package Dtos {
+       
+}
+                package Entities {
         
-        package Interfaces{
-     
+            }
+        
+
+       
+       
         }
+
+        package Data {
+        class AppDbContext 
+        }
+
+
+
+
+        package Controllers {
+       
+        }
+        
+               
         
 }
 @enduml
