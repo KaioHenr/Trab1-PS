@@ -32,6 +32,12 @@ package Dorama {
      
         
         }
+
+        package Service{
+        
+        package Interfaces{
+     
+        }
         
 }
 @enduml
