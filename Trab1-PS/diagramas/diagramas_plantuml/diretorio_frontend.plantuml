@@ -1,27 +1,29 @@
-﻿@startuml
+@startuml
 
 package Dorama {
-
     package src {
-
         package assets { }
         package components { }
-        package controllers { }
         package composables { }
-        
+        package controllers { 
+            package store { 
+                package generic { }
+            }
+        }
+
         package models {
             package generic { }
             package repositories { }
         }
-        
+
         package plugins { }
         package router { }
         package services { }
         package styles { }
-        package views { }
-
+        package views { 
+            package generic { }
+        }
     }
-
 }
 
 @enduml
