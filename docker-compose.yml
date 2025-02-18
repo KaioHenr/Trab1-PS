@@ -1,0 +1,15 @@
+version: '3.8'
+services:
+  backend:
+    container_name: trab1-ps-backend
+    build:
+      context: .  # O contexto de build é o próprio diretório do backend
+      dockerfile: Dockerfile  # Dockerfile dentro do diretório Trab1-PS
+    ports:
+      - "7004:7004"  # Porta para o backend
+    networks:
+      - minha-rede
+
+networks:
+  minha-rede:
+    driver: bridge
